@@ -1,2 +1,2 @@
-# flypig
-make code fly
+# NanoMD
+Nanopore direct RNA sequencing Multi-dimensional analysis
