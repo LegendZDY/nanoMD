@@ -32,12 +32,12 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 ### nanomd gene 
 
 ### Usage
-`nanomd.py detectnewRNA -i sample.pipe -f genome.cdna.fa -e 0.005 -o newRNA.fa.`
+`nanomd.py gene -i sample.pipe -f genome.cdna.fa -e 0.005 -o newRNA.fa.`
 
 ### nanomd isoform
 
 ### Usage
-`nanomd.py detectisoform -i sample.pipe -f genome.cdna.fa -e 0.005 -o isoform.bed.`
+`nanomd.py isoform -i sample.pipe -f genome.cdna.fa -e 0.005 -o isoform.bed.`
 
 
 ### nanomd m6A sites
