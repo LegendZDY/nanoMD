@@ -1,0 +1,34 @@
+# Using an environment name other than "base" is not recommended!
+# Read https://github.com/mamba-org/micromamba-docker#multiple-environments
+# if you must use a different environment name.
+name: base
+channels:
+  - conda-forge
+  - ursky
+  - bioconda
+  - defaults
+  - r
+dependencies:
+  - java-jdk=8
+  - multiqc
+  - unzip
+  - bc
+  - yq=3
+  - perl=5
+  - perl-app-cpanminus
+  - perl-parallel-forkmanager
+  - perl-pod-usage
+  - perl-getopt-long
+  - perl-posix
+  - perl-bioperl=1.7
+  - star=2.5.2b
+  - samtools=1.12
+  - picard=2.25.0
+  - bedtools=2.30.0
+  - numpy
+  - scipy=1.11
+  - pandas=1.2.4
+  - macs2=2.2
+  - homer=4.11
+  - seqkit
+  - cutadapt=4
