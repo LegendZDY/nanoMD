@@ -84,8 +84,36 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Scripts
 
+We provide a set of standalone scripts for 5EU detection and quantification.
+
+### detect_5EU.py
+
+This script detects 5' untranslated regions (5EU) from the ONT direct RNA sequencing data.
+
+### Usage
+
+`python detect_5EU.py -i sample.fastq -o 5EU.bed`
+
 ## Docker
+
+If the user has docker installed, the following command can be used to run the pipeline in a docker container:
+
+```
+docker run -v /path/to/data:/data -it nanomd/nanomd:latest /bin/bash
+```
 
 ## Conda Environment
 
+If the user has conda installed, the following command can be used to create a conda environment for nanoMD:
+
+1. Install conda
+2. Create a new conda environment: `conda create -n nanomd python=3.6`
+3. Activate the environment: `conda activate nanomd`
+4. Install the required packages: `conda install -c bioconda minimap2 samtools bedtools flair tombo mines`
+5. Install the required python packages: `pip install pandas numpy scipy sklearn matplotlib seaborn pysam`
+6. Clone the nanoMD repository: `git clone https://github.com/epibiotek/nanomd.git`
+7. Run the pipeline: `python nanomd/nanomd.py gene -i sample -f genome.cdna.fa -e 0.005 -o gene`
+
 ## Cite nanoMD
+
+If you use nanoMD in your research, please cite the following paper:
