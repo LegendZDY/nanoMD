@@ -34,12 +34,21 @@ It is recommended to use the docker or conda environment to run the pipeline.
 ## Requirements
 
 1. Python 3.6+
-2. minimap2
-3. samtools
-4. bedtools
-5. flair
-6. tombo
-6. mines
+2. Python modules:
+    - pandas
+    - numpy
+    - scipy
+    - sklearn
+    - matplotlib
+    - seaborn
+    - pysam
+3. minimap2
+4. samtools
+5. bedtools
+6. flair
+7. tombo
+8. mines
+9. metaPlotR
 
 ## nanoMD modules
 
