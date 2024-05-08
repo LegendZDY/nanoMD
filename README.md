@@ -27,11 +27,27 @@ synchronously analyze the changes in m6A sites, genes, and isoforms, and newRNA
 
 ## Overview
 
-nanoMD  is designed to work with the output of the ONT direct RNA sequencing platform and can be used to identify new m6A sites, genes, and isoforms, as well as detect and quantify new RNA species.
+nanoMD  is designed to work with the output of the ONT direct RNA sequencing platform and can be used to identify new m6A sites, genes, and isoforms, as well as detect and quantify newmRNA. 
+
+It is recommended to use the docker or conda environment to run the pipeline.
+
+## Requirements
+
+1. Python 3.6+
+2. minimap2
+3. samtools
+4. bedtools
+5. flair
+6. tombo
+6. mines
 
 ## nanoMD modules
 
 nanomd.py is the main module of nanoMD, which includes the following sub-modules:
+    - gene
+    - isoform
+    - detectm6A
+    - detectnewmRNA
 
 ### nanomd gene
 
