@@ -44,10 +44,10 @@ It is recommended to use the docker or conda environment to run the pipeline.
 ## nanoMD modules
 
 nanomd.py is the main module of nanoMD, which includes the following sub-modules:
-    - gene
-    - isoform
-    - detectm6A
-    - detectnewmRNA
+- gene
+- isoform
+- detectm6A
+- detectnewmRNA
 
 ### nanomd gene
 
