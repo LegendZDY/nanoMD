@@ -1,7 +1,6 @@
 ## nanoMD
 
-nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to
-synchronously analyze the changes in m6A sites, genes, and isoforms, and newRNA
+nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A sites, genes, and isoforms, and new mRNA.
 
 ## Table of Contents
 <!-- TOC -->
@@ -27,7 +26,7 @@ synchronously analyze the changes in m6A sites, genes, and isoforms, and newRNA
 
 ## Overview
 
-nanoMD  is designed to work with the output of the ONT direct RNA sequencing platform and can be used to identify new m6A sites, genes, and isoforms, as well as detect and quantify newmRNA. 
+nanoMD  is designed to work with the output of the ONT direct RNA sequencing platform and can be used to identify new m6A sites, genes, and isoforms, as well as detect and quantify new mRNA. 
 
 It is recommended to use the docker or conda environment to run the pipeline.
 
@@ -86,13 +85,13 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 We provide a set of standalone scripts for 5EU detection and quantification.
 
-### detect_5EU.py
+### detect5EU.py
 
 This script detects 5' untranslated regions (5EU) from the ONT direct RNA sequencing data.
 
 ### Usage
 
-`python detect_5EU.py -i sample.fastq -o 5EU.bed`
+`python detect5EU.py -i sample.fastq -o 5EU.bed`
 
 ## Docker
 
