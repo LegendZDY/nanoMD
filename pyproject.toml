@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.8"
 typer = "^0.15.1"
+pysam = "^0.22.1"
+requests = "^2.32.3"
 
 
 [build-system]
