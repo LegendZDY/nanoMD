@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 from rich.progress import track
 from typing_extensions import Annotated
-from utils.modifications import getModifications
+from .utils.modifications import getModifications
 
 app = typer.Typer()
 
