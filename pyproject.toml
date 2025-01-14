@@ -6,11 +6,12 @@ authors = ["DeYing Zhang <legendzdy@dingtalk.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "3.12.8"
 typer = "^0.15.1"
 pysam = "^0.22.1"
-requests = "^2.32.3"
 
+[tool.poetry.scripts]
+nanomd = "nanomd.main:app"
 
 [build-system]
 requires = ["poetry-core"]

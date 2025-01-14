@@ -7,15 +7,12 @@ from .utils.modifications import getModifications
 
 app = typer.Typer()
 
-APP_NAME = "nanomd"
-app_dir = typer.get_app_dir(APP_NAME)
-
 @app.callback()
 def callback():
     """
     nanomd is a package for analyzing nanopore RNA sequencing data.
     """
-# 定义一个命令来运行 map.sh 脚本
+
 @app.command()
 def detect(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
@@ -60,7 +57,6 @@ def pairmerge(
     subprocess.run(["bash", str(map_script), input, output, str(threads)], check=True)
 
 @app.command()
-
 def pairmerge(
     pileup: Annotated[str, typer.Option(help="Input pileup file.")],
     rawFa: Annotated[str, typer.Option(help="Input fasta file.")],
