@@ -3,6 +3,7 @@ import subprocess
 from pathlib import Path
 from rich.progress import track
 from typing_extensions import Annotated
+from .utils.map import minimap2map
 from .utils.modifications import getModifications
 
 app = typer.Typer()
@@ -14,10 +15,8 @@ def callback():
     """
 
 @app.command()
-def detect(
+def mapping(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
-    read1: Annotated[str, typer.Option("--read1", "-1", help="Read1 fastq file.")],
-    read2: Annotated[str, typer.Option("--read2", "-2", help="Read2 fastq file.")],
     linker: Annotated[str, typer.Option("--linker", "-l", help="Linker sequence.")],
     rnafq: Annotated[str, typer.Option("--rnafq", "-r", help="Output directory for RNA fastq files.")],
     dnafq: Annotated[str, typer.Option("--dnafq", "-d", help="Output directory for DNA fastq files.")],
