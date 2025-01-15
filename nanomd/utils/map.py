@@ -11,15 +11,22 @@ import subprocess
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 
-def minimap2map(inputfasq, reference, output, threads, soft="minimap2", params="--secondary=no --cs -a"):
+def minimap2map(input, reference, prefix, tool, params, threads):
     """
-    A simple implementation of the map function in Python.
+    map with minimap2.
+    Args:
+        input: input fasta file.
+        reference: reference fasta file.
+        prefix: output prefix.
+        threads: number of threads.
+        tool: minimap2 tool path.
+        params: minimap2 params.
     """
     command = [
-        soft, params, 
+        tool, params, 
         "-t", threads,
-        reference, inputfasq,
-        "-o", f"{output}.sam"
+        reference, input,
+        "-o", f"{prefix}.sam"
     ]
 
     with Progress(
@@ -37,4 +44,3 @@ def minimap2map(inputfasq, reference, output, threads, soft="minimap2", params="
             print(f"Error: {e}")
             progress.add_task(description="minimap2 mapping Failed", total=None)
             exit(1)
-    
