@@ -3,12 +3,12 @@ import subprocess
 from pathlib import Path
 from rich.progress import track
 from typing_extensions import Annotated
-from ..utils.map import minimap2map
+from ..utils.modifications import getModifications
 
 app = typer.Typer()
 
 @app.command()
-def mapping(
+def detectMod(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
     reference: Annotated[str, typer.Option("--reference", "-r", help="reference genome path.")],
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")],
@@ -17,6 +17,7 @@ def mapping(
     threads: Annotated[int, typer.Option(help="Number of threads.")]=4,
     ):
     """
-    Mapping of nanopore reads to a reference genome.
+    detect modification sites in input fastq files.
     """
-    minimap2map(input, reference, prefix, tool, parms, threads)
+    getModifications(input, reference, prefix, tool, parms, threads)
+
