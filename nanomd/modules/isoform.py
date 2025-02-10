@@ -8,7 +8,7 @@ from ..utils.map import minimap2map
 app = typer.Typer()
 
 @app.command()
-def mapping(
+def isoform(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
     reference: Annotated[str, typer.Option("--reference", "-r", help="reference genome path.")],
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")],

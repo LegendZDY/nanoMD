@@ -1,5 +1,6 @@
 import typer
-from .modules.mapping import mapping
+from .modules.gene import gene
+from .modules.isoform import isoform
 from .modules.detectMod import detectMod
 from .modules.isoformAS import isoformAS
 from .modules.nascentRNA import nascentRNA
@@ -13,7 +14,8 @@ def callback():
     genes, and isoforms, and new mRNA.
     """
 
-app.command(name="mapping")(mapping)
+app.command(name="gene")(gene)
+app.command(name="isoform")(isoform)
 app.command(name="isoformAS")(isoformAS)
 app.command(name="detectMod")(detectMod)
 app.command(name="nascentRNA")(nascentRNA)
