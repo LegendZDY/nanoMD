@@ -1,7 +1,7 @@
 import typer
-from .modules.mapping import app as mapping
-from .modules.detectMod import app as detectMod
-from .modules.isoformAS import app as isoformAS
+from .modules.mapping import mapping
+from .modules.detectMod import detectMod
+from .modules.isoformAS import isoformAS
 
 app = typer.Typer(add_completion=False)
 
@@ -12,10 +12,9 @@ def callback():
     genes, and isoforms, and new mRNA.
     """
 
-app.add_typer(mapping, name="mapping", help="Subcommands for isoform analysis.")
-app.add_typer(isoformAS, name="isoformAS", help="Subcommands for isoform analysis.")
-app.add_typer(detectMod, name="detectMod", help="Subcommands for isoform analysis.")
-
+app.command(name="mapping")(mapping)
+app.command(name="isoformAS")(isoformAS)
+app.command(name="detectMod")(detectMod)
 
 
 if __name__ == "__main__":
