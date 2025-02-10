@@ -2,6 +2,7 @@ import typer
 from .modules.mapping import mapping
 from .modules.detectMod import detectMod
 from .modules.isoformAS import isoformAS
+from .modules.nascentRNA import nascentRNA
 
 app = typer.Typer(add_completion=False)
 
@@ -15,6 +16,7 @@ def callback():
 app.command(name="mapping")(mapping)
 app.command(name="isoformAS")(isoformAS)
 app.command(name="detectMod")(detectMod)
+app.command(name="nascentRNA")(nascentRNA)
 
 
 if __name__ == "__main__":
