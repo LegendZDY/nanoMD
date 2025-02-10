@@ -11,7 +11,7 @@ typer = "^0.15.1"
 pysam = "^0.22.1"
 
 [tool.poetry.scripts]
-nanoMD = "nanomd.main:app"
+nanomd = "nanomd.main:app"
 
 [build-system]
 requires = ["poetry-core"]
