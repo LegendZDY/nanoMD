@@ -65,7 +65,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 ## test
 ```bash
 nohup python ./modifications.py -i ./treat.pass.fq.gz -s Treat.sam -b genes.bed -o test.treat.mod.bed > test.treat.mod.log 2>&1 &
-nohup nanomd detectMod -i ./treat.pass.fq.gz -a Treat.sam -b genes.bed -o test.treat.mod.detectMod.bed > test.treat.mod.detectMod.log 2>&1 &
+nohup nanomd detectMod -i ./treat.pass.fq.gz -s Treat.sam -b genes.bed -o test.treat.mod.detectMod.bed > test.treat.mod.detectMod.log 2>&1 &
 ```
 
 ## Usage
