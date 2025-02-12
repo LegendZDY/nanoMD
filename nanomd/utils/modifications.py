@@ -22,19 +22,28 @@ class form_reads_get_modifications:
         samFile: sam file or bam file
         bedFile: single base annotaiton bed file
         output: output file
+        pvalue: pvalue cutoff for modification
     """
     
-    BASE_PATTERNS = {
-        'A': re.compile(r'A'),
-        'T': re.compile(r'T'),
-        'C': re.compile(r'C')
+    MOD_MAP = {
+        'A+a': re.compile(r'A'),
+        'A+17596': re.compile(r'A'),
+        'T+17802': re.compile(r'T'),
+        'C+m': re.compile(r'C')
+    }
+    
+    BASE_MAP = {
+        "A": ["A", "T"],
+        "T": ["T", "A"],
+        "C": ["C", "G"]
     }
 
-    def __init__(self, inputFq, samFile, bedFile, output):
+    def __init__(self, inputFq, samFile, bedFile, output, pvalue=0.98):
         self.inputFq = inputFq
         self.samFile = samFile
         self.bedFile = bedFile
         self.output = output
+        self.pvalue = pvalue
 
     def get_annotation(self):
         def read_bed_file():
@@ -70,32 +79,6 @@ class form_reads_get_modifications:
             mlcount += 1
         return readPos, readPosPvalue
 
-
-    def process_record(self, name, seq):
-        namelist = name.split("\t")
-        id = namelist[0].split("@")[-1]
-        MMtagList = namelist[-2].split("MM:Z:")[-1].split(";")
-        MLtag = namelist[-1].split(",")[1:]
-        mlstart = 0
-        for mm in MMtagList:
-            mmlen = len(mm.split(","))
-            if mmlen > 1:
-                mlend = mlstart + mmlen - 1
-                mlNum = MLtag[mlstart:mlend]
-                mlstart += mmlen - 1
-                mod_map = {
-                    'A+a': re.compile(r'A'),
-                    'A+17596': re.compile(r'A'),
-                    'T+17802': re.compile(r'T'),
-                    'C+m': re.compile(r'C')
-                }
-                for mod, base in mod_map.items():
-                    if mm.startswith(mod):
-                        base_list = [match.start() + 1 for match in base.finditer(seq)]
-                        readPos, readPosPvalue = self.find_read_position(mm, base_list, mlNum)
-                        
-        return readPos, readPosPvalue, mod, id
-
     def get_mod_position_with_read(self):
         rpos_mod = defaultdict(list)
         with gzip.open(self.inputFq, 'rt') as f:
@@ -105,10 +88,25 @@ class form_reads_get_modifications:
                         seq = next(f).strip()
                         plus = next(f).strip()
                         qual = next(f).strip()
-                        readPos, readPosPvalue, mod, id = self.process_record(name, seq)
-                        for rpos, pvalue in zip(readPos, readPosPvalue):
-                            if pvalue > 0.98:
-                                rpos_mod[id].append((rpos, pvalue, mod))
+                        
+                        namelist = name.split("\t")
+                        id = namelist[0].split("@")[-1]
+                        MMtagList = namelist[-2].split("MM:Z:")[-1].split(";")
+                        MLtag = namelist[-1].split(",")[1:]
+                        mlstart = 0
+                        for mm in MMtagList:
+                            mmlen = len(mm.split(","))
+                            if mmlen > 1:
+                                mlend = mlstart + mmlen - 1
+                                mlNum = MLtag[mlstart:mlend]
+                                mlstart += mmlen - 1
+                            for mod, base in self.MOD_MAP.items():
+                                if mm.startswith(mod):
+                                    base_list = [match.start() + 1 for match in base.finditer(seq)]
+                                    readPos, readPosPvalue = self.find_read_position(mm, base_list, mlNum)
+                                    for rpos, pvalue in zip(readPos, readPosPvalue):
+                                        if pvalue >= self.pvalue:
+                                            rpos_mod[id].append((rpos, pvalue, mod))
                     except StopIteration:
                         break
         return rpos_mod
@@ -132,7 +130,9 @@ class form_reads_get_modifications:
                                         genome_id = f"chr{read.reference_name}:{pos + i}"
                                         if annot.get(genome_id) is not None:
                                             enst, base = annot[genome_id]
-                                            f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i+1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
+                                            rbase = mod[0]
+                                            if rbase in self.BASE_MAP and base in self.BASE_MAP[rbase]:
+                                                f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
                             pos += length
                             read_pos += length
                         elif op == 1:  # I: 插入

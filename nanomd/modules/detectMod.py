@@ -12,6 +12,7 @@ def detectMod(
     sam: Annotated[str, typer.Option("--sam", "-s", help="mapping sam/bam file.")],
     bed: Annotated[str, typer.Option("--bed", "-b", help="bed file for modification sites.")],
     output: Annotated[str, typer.Option("--output", "-o", help="Output file.")],
+    pvalue: Annotated[float, typer.Option("--pvalue", "-p", help="pvalue cutoff for modification sites.")]=0.98,
     ):
     """
     detect modification sites in input fastq files.
@@ -25,7 +26,7 @@ def detectMod(
         try:
             progress.add_task(description="detecting modification sites...", total=None)
             start=time.time()
-            mod = form_reads_get_modifications(input, sam, bed, output)
+            mod = form_reads_get_modifications(input, sam, bed, output, pvalue)
             mod.get_mod_position_with_sam()
             end=time.time()
             progress.add_task(description=f"detecting modification sites Done, time cost: {end-start}s", total=None)
@@ -33,6 +34,3 @@ def detectMod(
             print(f"Error: {e}")
             progress.add_task(description="detecting modification sites Failed", total=None)
             exit(1)
-    
-    
-
