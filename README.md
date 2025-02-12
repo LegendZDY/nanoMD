@@ -62,6 +62,11 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## nanomd gene
 
+## test
+```bash
+nohup python ./modifications.py -i ./treat.pass.fq.gz -s Treat.sam -b genes.bed -o test.treat.mod.bed > test.treat.mod.log 2>&1 &
+```
+
 ## Usage
 
 `nanomd.py gene -i sample -f genome.cdna.fa -e 0.005 -o gene`

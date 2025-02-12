@@ -2,7 +2,7 @@ import time
 import typer
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from typing_extensions import Annotated
-from ..utils.modifications import getModifications
+from ..utils.modifications import form_reads_get_modifications
 
 app = typer.Typer()
 
@@ -12,7 +12,6 @@ def detectMod(
     sam: Annotated[str, typer.Option("--sam", "-a", help="mapping sam file.")],
     bed: Annotated[str, typer.Option("--bed", "-b", help="bed file for modification sites.")],
     output: Annotated[str, typer.Option("--output", "-o", help="Output file.")],
-    threads: Annotated[int, typer.Option(help="Number of threads.")]=4,
     ):
     """
     detect modification sites in input fastq files.
@@ -26,8 +25,8 @@ def detectMod(
         try:
             progress.add_task(description="detecting modification sites...", total=None)
             start=time.time()
-            mod = getModifications(input, sam, bed, output, threads)
-            mod.getModPositionWithRead()
+            mod = form_reads_get_modifications(input, sam, bed, output)
+            mod.get_mod_position_with_sam()
             end=time.time()
             progress.add_task(description=f"detecting modification sites Done, time cost: {end-start}s", total=None)
         except Exception as e:
