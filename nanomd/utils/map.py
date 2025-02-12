@@ -22,14 +22,14 @@ def minimap2map(input, reference, output, tool, params, threads):
     suffix = output.split(".")[-1]
     if suffix == "sam":
         command = [
-            tool, params, "-t", threads,
+            tool, params, "-t", str(threads),
             reference, input, "-o", output
             ]
     elif suffix == "bam":
         command = [
-            tool, params, "-t", threads,
+            tool, params, "-t", str(threads),
             reference, input, "|", "samtools", 
-            "sort", "-@", threads, "-o", output, 
+            "sort", "-@", str(threads), "-o", output, 
             "&&", "samtools", "index", output
             ]
     try:
