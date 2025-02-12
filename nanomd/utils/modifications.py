@@ -124,7 +124,7 @@ class form_reads_get_modifications:
                                         genome_id = f"chr{read.reference_name}:{pos + i}"
                                         if annot.get(genome_id) is not None:
                                             enst, base = annot[genome_id]
-                                            f.write(f"{read.reference_name}\t{pos + i}\t{pos + i+1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
+                                            f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i+1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
                             pos += length
                             read_pos += length
                         elif op == 1:  # I: 插入

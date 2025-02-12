@@ -9,7 +9,7 @@ app = typer.Typer()
 @app.command()
 def detectMod(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
-    sam: Annotated[str, typer.Option("--sam", "-a", help="mapping sam file.")],
+    sam: Annotated[str, typer.Option("--sam/bam", "-s", help="mapping sam/bam file.")],
     bed: Annotated[str, typer.Option("--bed", "-b", help="bed file for modification sites.")],
     output: Annotated[str, typer.Option("--output", "-o", help="Output file.")],
     ):
