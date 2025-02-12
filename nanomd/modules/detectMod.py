@@ -1,7 +1,7 @@
 import time
 import typer
-from rich.progress import Progress, SpinnerColumn, TextColumn
 from typing_extensions import Annotated
+from rich.progress import Progress, SpinnerColumn, TextColumn
 from ..utils.modifications import form_reads_get_modifications
 
 app = typer.Typer()

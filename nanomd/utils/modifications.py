@@ -15,18 +15,26 @@ import pysam
 from collections import defaultdict
 
 class form_reads_get_modifications:
+    """
+    from reads get modifications
+    Args:
+        inputFq: input fq file
+        samFile: sam file or bam file
+        bedFile: single base annotaiton bed file
+        output: output file
+    """
+    
     BASE_PATTERNS = {
         'A': re.compile(r'A'),
         'T': re.compile(r'T'),
         'C': re.compile(r'C')
     }
 
-    def __init__(self, inputFq, samFile, bedFile, output, workers=4):
+    def __init__(self, inputFq, samFile, bedFile, output):
         self.inputFq = inputFq
         self.samFile = samFile
         self.bedFile = bedFile
         self.output = output
-        self.workers = workers
 
     def get_annotation(self):
         def read_bed_file():
