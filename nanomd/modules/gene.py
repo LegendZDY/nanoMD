@@ -29,8 +29,8 @@ def gene(
             start=time.time()
             minimap2map(input, reference, output, tool, parms, threads)
             end=time.time()
-            print(f"map reference Done, time cost: {end-start}s")
-            progress.add_task(description=f"map reference Done, time cost: {end-start}s", total=None)
+            print(f"map reference Done, time cost: {(end-start)/3600:.2f}h")
+            progress.add_task(description=f"map reference Done, time cost: {(end-start)/3600:.2f}h", total=None)
         except Exception as e:
             print(f"Error: {e}")
             progress.add_task(description="map reference Failed", total=None)
