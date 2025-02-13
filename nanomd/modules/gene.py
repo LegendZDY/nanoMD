@@ -12,7 +12,7 @@ def gene(
     reference: Annotated[str, typer.Option("--reference", "-r", help="reference genome path.")],
     output: Annotated[str, typer.Option("--output", "-o", help="output for output sam/bam files.")],
     tool: Annotated[str, typer.Option("--tool", help="minimap2.")]="minimap2",
-    parms: Annotated[str, typer.Option("--parms", help="minimap2 parameters for mapping.")]="--secondary=no --cs -a",
+    parms: Annotated[str, typer.Option("--parms", help="minimap2 parameters for mapping.")]="--secondary=no --cs -a --sam-hit-only",
     threads: Annotated[int, typer.Option("--threads", "-t", help="Number of threads.")]=4,
     ):
     """
