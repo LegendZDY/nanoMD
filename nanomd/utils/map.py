@@ -33,6 +33,7 @@ def minimap2map(input, reference, output, tool, params, threads):
             "&&", "samtools", "index", output
             ]
     try:
+        print(f"Running command: {' '.join(command)}")
         subprocess.run(command, check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")

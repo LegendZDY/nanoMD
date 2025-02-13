@@ -12,7 +12,7 @@ def gene(
     reference: Annotated[str, typer.Option("--reference", "-r", help="reference genome path.")],
     output: Annotated[str, typer.Option("--output", "-o", help="output for output sam/bam files.")],
     tool: Annotated[str, typer.Option("--tool", help="minimap2.")]="minimap2",
-    parms: Annotated[str, typer.Option("--parms", help="minimap2 parameters for mapping.")]="--secondary=no --cs -a",
+    parms: Annotated[str, typer.Option("--parms", help="minimap2 parameters for mapping.")]="--secondary=no -a -c",
     threads: Annotated[int, typer.Option("--threads", "-t", help="Number of threads.")]=4,
     ):
     """
@@ -29,6 +29,7 @@ def gene(
             start=time.time()
             minimap2map(input, reference, output, tool, parms, threads)
             end=time.time()
+            print(f"map reference Done, time cost: {end-start}s")
             progress.add_task(description=f"map reference Done, time cost: {end-start}s", total=None)
         except Exception as e:
             print(f"Error: {e}")
