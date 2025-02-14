@@ -17,6 +17,6 @@ def isoformAS(
     threads: Annotated[int, typer.Option(help="Number of threads.")]=4,
     ):
     """
-    Mapping of nanopore reads to a reference genome.
+    alternative splicing analysis.
     """
     minimap2map(input, reference, prefix, tool, parms, threads)
