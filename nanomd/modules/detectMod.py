@@ -29,7 +29,7 @@ def detectMod(
             mod = form_reads_get_modifications(input, sam, bed, output, pvalue)
             mod.get_mod_position_with_sam()
             end=time.time()
-            time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60}s"
+            time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
             print(f"detecting modification Done, time cost: {time_cost}")
             progress.add_task(description=f"detecting modification sites Done, time cost: {time_cost}", total=None)
         except Exception as e:

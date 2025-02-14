@@ -29,7 +29,7 @@ def isoform(
             start=time.time()
             minimap2map(input, reference, output, tool, parms, threads)
             end=time.time()
-            time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60}s"
+            time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
             print(f"map reference Done, time cost: {time_cost}")
             progress.add_task(description=f"map reference Done, time cost: {time_cost}", total=None)
         except Exception as e:
