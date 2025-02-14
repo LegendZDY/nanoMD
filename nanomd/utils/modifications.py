@@ -133,6 +133,8 @@ class form_reads_get_modifications:
                                             rbase = mod[0]
                                             if rbase in self.BASE_MAP and base in self.BASE_MAP[rbase]:
                                                 f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
+                                            else:
+                                                print(f"rbase: {rbase}, base: {base} not supported")
                             pos += length
                             read_pos += length
                         elif op == 1:  # I: 插入
