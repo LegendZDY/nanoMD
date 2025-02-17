@@ -46,15 +46,15 @@ class form_reads_get_modifications:
         self.pvalue = pvalue
 
     def get_annotation(self):
-        def read_bed_file():
-            with open(self.bedFile, 'r') as f:
-                for line in f:
-                    line = line.strip().split("\t")
-                    gid = line[0] + ":" + line[1]
-                    enst = line[3]
-                    base = line[4]
-                    yield gid, (enst, base)
-        return dict(read_bed_file())
+        annot = {}
+        with open(self.bedFile, 'r') as f:
+            for line in f:
+                line = line.strip().split("\t")
+                gid = line[0] + ":" + line[1]
+                enst = line[3]
+                base = line[4]
+                annot[gid] = (enst, base)
+        return annot
 
     def find_poslist(self, modList):
         counter = 0
@@ -135,6 +135,8 @@ class form_reads_get_modifications:
                                                 f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
                                             else:
                                                 print(f"rbase: {rbase}, base: {base} not supported, {self.BASE_MAP}")
+                                        else:
+                                            print(f"genome_id: {genome_id} not found in annotation file")
                             pos += length
                             read_pos += length
                         elif op == 1:  # I: 插入
@@ -151,3 +153,5 @@ class form_reads_get_modifications:
                             read_pos += length
                         else:
                             print(f"op: {op}, length: {length} not supported")
+            else:
+                print(f"read: {read.query_name} not found in fq file")
