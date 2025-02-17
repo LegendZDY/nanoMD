@@ -111,13 +111,13 @@ class form_reads_get_modifications:
                         break
         return rpos_mod
 
-
     def get_mod_position_with_sam(self):
         rpos_mod = self.get_mod_position_with_read()
         annot = self.get_annotation()
         with open(self.output, "w") as f:
             for read in pysam.AlignmentFile(self.samFile, "r"):
                 if not read.is_unmapped and rpos_mod.get(read.query_name) is not None:
+                    chrname = f"chr{read.reference_name.lstrip('chr')}"
                     pos = read.reference_start
                     read_pos = 1
                     strand = "-" if read.is_reverse else "+"
@@ -127,12 +127,12 @@ class form_reads_get_modifications:
                                 mod_list = rpos_mod[read.query_name]
                                 for rpos, pvalue, mod in mod_list:
                                     if rpos == read_pos + i:
-                                        genome_id = f"chr{read.reference_name}:{pos + i}"
+                                        genome_id = f"{chrname}:{pos + i}"
                                         if annot.get(genome_id) is not None:
                                             enst, base = annot[genome_id]
                                             rbase = mod[0]
                                             if rbase in self.BASE_MAP and base in self.BASE_MAP[rbase]:
-                                                f.write(f"chr{read.reference_name}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
+                                                f.write(f"{chrname}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
                                             else:
                                                 print(f"rbase: {rbase}, base: {base} not supported, {self.BASE_MAP}")
                                         else:
