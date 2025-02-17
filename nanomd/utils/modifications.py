@@ -46,15 +46,16 @@ class form_reads_get_modifications:
         self.pvalue = pvalue
 
     def get_annotation(self):
-        annot = {}
-        with open(self.bedFile, 'r') as f:
-            for line in f:
-                line = line.strip().split("\t")
-                gid = line[0] + ":" + line[1]
-                enst = line[3]
-                base = line[4]
-                annot[gid] = (enst, base)
-        return annot
+        def read_bed_file():
+            with open(self.bedFile, 'r') as f:
+                for line in f:
+                    line = line.strip().split("\t")
+                    chrname = f"chr{line[0].lstrip('chr')}"
+                    gid = chrname + ":" + line[1]
+                    enst = line[3]
+                    base = line[4]
+                    yield gid, (enst, base)
+        return dict(read_bed_file())
 
     def find_poslist(self, modList):
         counter = 0
