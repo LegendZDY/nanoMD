@@ -37,6 +37,13 @@ class form_reads_get_modifications:
         "T": ["T", "A"],
         "C": ["C", "G"]
     }
+    
+    MOD_TYPE = {
+        "A+a": "m6A",
+        "A+17596": "AtoI",
+        "T+17802": "psi",
+        "C+m": "m5C"
+    }
 
     def __init__(self, inputFq, samFile, bedFile, output, pvalue=0.98):
         self.inputFq = inputFq
@@ -132,8 +139,9 @@ class form_reads_get_modifications:
                                         if annot.get(genome_id) is not None:
                                             enst, base = annot[genome_id]
                                             rbase = mod[0]
+                                            mod_type = self.MOD_TYPE[mod]
                                             if rbase in self.BASE_MAP and base in self.BASE_MAP[rbase]:
-                                                f.write(f"{chrname}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod}\t{base}\n")
+                                                f.write(f"{chrname}\t{pos + i}\t{pos + i + 1}\t{pvalue}\t{enst}\t{strand}\t{mod_type}\t{base}\n")
                                             else:
                                                 pass
                                                 # print(f"rbase: {rbase}, base: {base} not supported, {self.BASE_MAP}")
