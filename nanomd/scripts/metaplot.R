@@ -21,11 +21,19 @@ output <- opt$output
 prefix <- opt$prefix
 type <- opt$type
 
+# library packages
+library(dplyr)
+library(purrr)
+library(scales)
+library(ggplot2)
+library(magrittr)
+library(legendBaseModel)
+
 plot_metagene_Rd <- function(input_data, output_path, prefix, mod_type = "m6A") {
     ifelse(dir.exists(output_path), "Dir exist alreadly!", dir.create(output_path, recursive = TRUE))
     tryCatch({
     # START
-    # cat(crayon::green(paste0(prefix, "Start ploting Metagene\n")))
+    cat(crayon::green(paste0(prefix, "Start ploting Metagene\n")))
     colour_fill <- c("black", "red")
     names(colour_fill) <- input_data$group  %>% unique()
     p1 <- ggplot(input_data, aes(x=value))+
@@ -48,8 +56,7 @@ plot_metagene_Rd <- function(input_data, output_path, prefix, mod_type = "m6A") 
     ggsave(paste0(output_path, "/", prefix, "_", mod_type, "_metagene.png"), p1, width = 8, height = 6)
     ggsave(paste0(output_path, "/", prefix, "_", mod_type, "_metagene.tiff"), p1, width = 8, height = 6)
 
-    
-    # cat(crayon::green(paste0(prefix, "Metagene analysis done\n")))
+    cat(crayon::green(paste0(prefix, "Metagene analysis done\n")))
     # END
     return("sucess")},
     error = function(e){print(e$message);message(return("failled"))})
