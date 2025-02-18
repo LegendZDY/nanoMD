@@ -1,4 +1,11 @@
-
+# -*- coding: utf-8 -*-
+__author__ = "legendzdy@dingtalk.com"
+"""
+Author: legendzdy@dingtalk.com
+Data: 20250218
+Description:
+function position calculator.
+"""
 
 class gene_feature_distance_calculator:
     """

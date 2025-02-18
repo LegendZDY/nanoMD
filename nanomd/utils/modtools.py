@@ -6,7 +6,7 @@ Data: 20250217
 Description:
 function map.
 """
-import subprocess
+from collections import defaultdict
 
 def split_mod(input, prefix):
     """
@@ -17,12 +17,19 @@ def split_mod(input, prefix):
     Returns:
         None.
     """
+    filemod = defaultdict(list)
+    
     with open(input, 'r') as file:
         for line in file:
             fields = line.strip().split("\t")
-            if len(fields) >= 7:
-                output_filename = prefix + "_" + fields[6] + ".bed"
-                with open(output_filename, 'a') as output_file:
-                    output_file.write(line)
+            if filemod.get(fields[4]) is None:
+                filemod[fields[4]] = fields.append(1)
+            else:
+                filemod[fields[4]][-1] += 1
+    
+    for key, value in filemod.items():
+        output_filename = prefix + "_" + fields[6] + ".bed"
+        with open(output_filename, 'a') as output_file:
+            output_file.write("\t".join(value))
 
 
