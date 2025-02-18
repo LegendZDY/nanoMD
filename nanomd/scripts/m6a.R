@@ -71,8 +71,6 @@ filter_modification_mRNA <- function() {
         dplyr::select(c("V1","V2","V3","V4","V5","V6","V7","V8")) %>% 
         write.table(., paste0(input_path, "/WT/psi.plus.mrna.bed"), sep = "\t", row.names = F, col.names = F, quote = F)
 
-
-    
     # END
     return("sucess")},
     error = function(e){print(e$message);message(return("failled"))}))

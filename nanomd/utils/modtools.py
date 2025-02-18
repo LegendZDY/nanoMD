@@ -24,3 +24,5 @@ def split_mod(input, prefix):
                 output_filename = prefix + "_" + fields[6] + ".bed"
                 with open(output_filename, 'a') as output_file:
                     output_file.write(line)
+
+

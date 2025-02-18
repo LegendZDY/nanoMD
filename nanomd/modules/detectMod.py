@@ -4,6 +4,7 @@ from typing_extensions import Annotated
 from rich.progress import Progress, SpinnerColumn, TextColumn
 from ..utils.modtools import split_mod
 from ..utils.basetools import check_path_exists
+from ..utils.abs_position import gene_feature_distance_calculator
 from ..utils.modifications import form_reads_get_modifications
 
 app = typer.Typer()
@@ -13,6 +14,7 @@ def detectMod(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
     sam: Annotated[str, typer.Option("--sam", "-s", help="mapping sam/bam file.")],
     bed: Annotated[str, typer.Option("--bed", "-b", help="bed file for transcripts sites.")],
+    regions: Annotated[str, typer.Option("--regions", "-r", help="regions file for gene feature distance calculation.")],
     output: Annotated[str, typer.Option("--output", "-o", help="Output file path.")]=".",
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     pvalue: Annotated[float, typer.Option("--pvalue", help="pvalue cutoff for modification sites.")]=0.98,
@@ -41,6 +43,15 @@ def detectMod(
             split_mod(output_file, prefix)
         progress.add_task(description="Splitting modification sites Done", total=None)
 
+        progress.add_task(description="Calculating absolute distance...", total=None)
+        bed_file_list = [f"{output}/{prefix}_m6A.bed", f"{output}/{prefix}_m5C.bed", f"{output}/{prefix}_psi.bed", f"{output}/{prefix}_AtoI.bed"]
+        for bed_file in bed_file_list:
+            gfc_output = f"{output}/{prefix}.abs_dist.txt"
+            if not check_path_exists(gfc_output):
+                gfc = gene_feature_distance_calculator(bed_file, regions, gfc_output)
+                gfc.process_bed_file()
+        progress.add_task(description="Calculating absolute distance Done", total=None)
+        
         end=time.time()
         time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
         print(f"Detecting modification sites Done, time cost: {time_cost}")
