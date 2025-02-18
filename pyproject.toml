@@ -6,7 +6,7 @@ authors = ["DeYing Zhang <legendzdy@dingtalk.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.12.8"
+python = "^3.10"
 typer = "^0.15.1"
 pysam = "^0.22.1"
 
