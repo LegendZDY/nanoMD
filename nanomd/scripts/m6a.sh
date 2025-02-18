@@ -10,3 +10,5 @@ perl ~/soft/metaPlotR/rel_and_abs_dist_calc.pl --bed ./annot_m6a.sorted.bed --re
 cat Treat.mod.bed | awk -F "\t" '$4 > 0.95 {file="Treat/" $7 ".bed"; print $0 > file}'
 
 cat Control.mod.bed | awk -F "\t" '$4 > 0.95 {file="Control/" $7 ".bed"; print $0 > file}'
+
+R CMD INSTALL legendBaseModel_0.0.6.tar.gz
