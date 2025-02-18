@@ -15,9 +15,9 @@ def split_mod(input, prefix):
     Returns:
         None.
     """
-    dupfile = {}
     
     with open(input, 'r') as file:
+        dupfile = {}
         for line in file:
             count = 1
             fields = line.strip().split("\t")
@@ -27,9 +27,9 @@ def split_mod(input, prefix):
                 count += int(dupfile[fields[4]][-1])
                 dupfile[fields[4]][-1] = str(count)
     
-    for key, values in dupfile.items():
-        output_filename = prefix + "_" + values[6] + ".bed"
-        with open(output_filename, 'a') as output_file:
-            output_file.write("\t".join(values))
+        for key, values in dupfile.items():
+            output_filename = prefix + "_" + values[6] + ".bed"
+            with open(output_filename, 'a') as output_file:
+                output_file.write("\t".join(values))
 
 
