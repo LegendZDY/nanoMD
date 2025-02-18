@@ -6,8 +6,6 @@ Data: 20250217
 Description:
 function map.
 """
-from collections import defaultdict
-
 def split_mod(input, prefix):
     """
     split modification bed file into single bed files.
@@ -17,19 +15,21 @@ def split_mod(input, prefix):
     Returns:
         None.
     """
-    filemod = defaultdict(list)
+    dupfile = {}
     
     with open(input, 'r') as file:
         for line in file:
+            count = 1
             fields = line.strip().split("\t")
-            if filemod.get(fields[4]) is None:
-                filemod[fields[4]] = fields.append(1)
+            if dupfile.get(fields[4]) is None:
+                dupfile[fields[4]] = fields.append(str(count))
             else:
-                filemod[fields[4]][-1] += 1
+                count += int(dupfile[fields[4]][-1])
+                dupfile[fields[4]][-1] = str(count)
     
-    for key, value in filemod.items():
-        output_filename = prefix + "_" + value[6] + ".bed"
+    for key, values in dupfile.items():
+        output_filename = prefix + "_" + values[6] + ".bed"
         with open(output_filename, 'a') as output_file:
-            output_file.write("\t".join(value))
+            output_file.write("\t".join(values))
 
 
