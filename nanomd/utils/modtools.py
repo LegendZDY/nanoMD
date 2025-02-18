@@ -28,7 +28,7 @@ def split_mod(input, prefix):
                 filemod[fields[4]][-1] += 1
     
     for key, value in filemod.items():
-        output_filename = prefix + "_" + fields[6] + ".bed"
+        output_filename = prefix + "_" + value[6] + ".bed"
         with open(output_filename, 'a') as output_file:
             output_file.write("\t".join(value))
 
