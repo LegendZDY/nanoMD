@@ -22,14 +22,12 @@ def split_mod(input, prefix):
             count = 1
             fields = line.strip().split("\t")
             if dupfile.get(fields[4]) is None:
-                dupfile[fields[4]] = fields.append(str(count))
+                dupfile[fields[4]] = fields + [str(count)]  # 修复：将count作为新元素添加到列表中
             else:
                 count += int(dupfile[fields[4]][-1])
                 dupfile[fields[4]][-1] = str(count)
     
         for key, values in dupfile.items():
-            output_filename = prefix + "_" + values[6] + ".bed"
+            output_filename = prefix + "_" + values[4] + ".bed"  # 修复：假设values[4]用于命名文件
             with open(output_filename, 'a') as output_file:
-                output_file.write("\t".join(values))
-
-
+                output_file.write("\t".join(values) + "\n")  # 修复：确保每行末尾有换行符
