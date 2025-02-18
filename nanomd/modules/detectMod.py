@@ -39,7 +39,7 @@ def detectMod(
         progress.add_task(description=f"Getting modification from fq files Done", total=None)
 
         progress.add_task(description="Splitting modification sites...", total=None)
-        if not check_path_exists(f"{output}/{prefix}.m6A.bed"):
+        if not check_path_exists(f"{output}/{prefix}_m6A.bed"):
             split_mod(output_file, prefix)
         progress.add_task(description="Splitting modification sites Done", total=None)
 
