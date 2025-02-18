@@ -46,7 +46,7 @@ def detectMod(
         progress.add_task(description="Calculating absolute distance...", total=None)
         bed_file_list = [f"{output}/{prefix}_m6A.bed", f"{output}/{prefix}_m5C.bed", f"{output}/{prefix}_psi.bed", f"{output}/{prefix}_AtoI.bed"]
         for bed_file in bed_file_list:
-            gfc_output = f"{output}/{prefix}.abs_dist.txt"
+            gfc_output = bed_file.replace(".bed", "_abs_dist.txt")
             if not check_path_exists(gfc_output):
                 gfc = gene_feature_distance_calculator(bed_file, regions, gfc_output)
                 gfc.process_bed_file()
