@@ -10,8 +10,7 @@ app = typer.Typer(add_completion=False)
 @app.callback()
 def callback():
     """
-    nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A sites, 
-    genes, and isoforms, and new mRNA.
+    nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A, m5C, psi, AtoI modification sites, genes, isoforms, alternative splicing events, and nascent RNA in direct RNA sequencing data.
     """
 
 app.command(name="gene")(gene)

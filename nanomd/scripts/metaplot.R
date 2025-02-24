@@ -33,7 +33,7 @@ plot_metagene_Rd <- function(input_data, output_path, prefix, mod_type = "m6A") 
     ifelse(dir.exists(output_path), "Dir exist alreadly!", dir.create(output_path, recursive = TRUE))
     tryCatch({
     # START
-    cat(crayon::green(paste0(prefix, "Start ploting Metagene\n")))
+    cat(crayon::green(paste0(prefix, " Start ploting Metagene\n")))
     colour_fill <- c("black", "red")
     names(colour_fill) <- input_data$group  %>% unique()
     p1 <- ggplot(input_data, aes(x=value))+
@@ -56,16 +56,33 @@ plot_metagene_Rd <- function(input_data, output_path, prefix, mod_type = "m6A") 
     ggsave(paste0(output_path, "/", prefix, "_", mod_type, "_metagene.png"), p1, width = 8, height = 6)
     ggsave(paste0(output_path, "/", prefix, "_", mod_type, "_metagene.tiff"), p1, width = 8, height = 6)
 
-    cat(crayon::green(paste0(prefix, "Metagene analysis done\n")))
+    cat(crayon::green(paste0(prefix, " Metagene analysis done\n")))
     # END
     return("sucess")},
     error = function(e){print(e$message);message(return("failled"))})
 }
-restructure_coord <- function(input_path, group) {
-    m6a.dist <- read.delim(input_path, header = T) %>%
-        dplyr::filter(cds_size > utr3_size & utr3_size > utr5_size) %>% 
-        dplyr::mutate(
-            trx_len = utr5_size + cds_size + utr3_size)
+restructure_coord <- function(input_path, group, type) {
+    if (type == "m6A") {
+        m6a.dist <- read.delim(input_path, header = T) %>%
+            dplyr::filter(utr5_size > utr3_size) %>% 
+            dplyr::mutate(
+                trx_len = utr5_size + cds_size + utr3_size)
+    } else if (type == "m5C") {
+        m6a.dist <- read.delim(input_path, header = T) %>%
+            dplyr::filter(cds_size > utr3_size & utr3_size > utr5_size) %>% 
+            dplyr::mutate(
+                trx_len = utr5_size + cds_size + utr3_size)
+    } else if (type == "psi") {
+        m6a.dist <- read.delim(input_path, header = T) %>%
+            dplyr::filter(cds_size > utr3_size & utr3_size > utr5_size) %>% 
+            dplyr::mutate(
+                trx_len = utr5_size + cds_size + utr3_size)
+    } else if (type == "AtoI") {
+        m6a.dist <- read.delim(input_path, header = T) %>% 
+            dplyr::filter(cds_size > utr3_size & utr3_size > utr5_size) %>% 
+            dplyr::mutate(
+                trx_len = utr5_size + cds_size + utr3_size)
+    }
 
     temp.df <- m6a.dist %>%
         dplyr::select(c("gene_name", "refseqID", "trx_len")) %>%
@@ -98,19 +115,19 @@ auto_meta_plot <- function(input_path, output_path, prefix, mod_type = "m6A") {
     sample_all <- legendBaseModel::make_sample_sheet(input_path, paste0("_", mod_type, "_abs_dist.txt")) %>%
         dplyr::mutate(
             group = sample,
-            dist_measures = purrr::map2(sample_path, group, restructure_coord)
+            type = mod_type,
+            dist_measures = purrr::pmap(list(sample_path, group, type), restructure_coord)
         ) %>% 
         dplyr::mutate(
             output_plot = output_path,
             prefix_plot = paste0(prefix, group),
-            plot_meta <- purrr::pmap(list(dist_measures, output_plot, prefix_plot), plot_metagene_Rd)
+            plot_meta <- purrr::pmap(list(dist_measures, output_plot, prefix_plot, type), plot_metagene_Rd)
         )
-    #  p1 <- legendBaseModel::rbind_merge(sample_all, "dist_measures") %>% 
-    #     plot_metagene_Rd(., output_path, prefix)
     # END
     return("sucess")},
     error = function(e){print(e$message);message(return("failled"))})
 }
+
 
 # main run
 auto_meta_plot(input, output, prefix, type)

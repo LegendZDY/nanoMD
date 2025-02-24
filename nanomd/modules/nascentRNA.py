@@ -17,6 +17,6 @@ def nascentRNA(
     threads: Annotated[int, typer.Option(help="Number of threads.")]=4,
     ):
     """
-    Mapping of nanopore reads to a reference genome.
+    Detect nascent RNA of nanopore reads.
     """
     minimap2map(input, reference, prefix, tool, parms, threads)
