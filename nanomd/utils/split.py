@@ -23,13 +23,13 @@ def split_mod(input, prefix, pvalue):
         for line in file:
             count = 1
             fields = line.strip().split("\t")
-            if float(fields[3]) >= pvalue:
-                continue
-            if dupfile.get(fields[4]) is None:
-                dupfile[fields[4]] = fields + [str(count)]
-            else:
-                count += int(dupfile[fields[4]][-1])
-                dupfile[fields[4]][-1] = str(count)
+            if float(fields[3]) >= float(pvalue):
+                print(float(fields[3]))
+                if dupfile.get(fields[4]) is None:
+                    dupfile[fields[4]] = fields + [str(count)]
+                else:
+                    count += int(dupfile[fields[4]][-1])
+                    dupfile[fields[4]][-1] = str(count)
     
         for key, values in dupfile.items():
             output_filename = prefix + "_" + values[6] + ".bed" 

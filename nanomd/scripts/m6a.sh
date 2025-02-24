@@ -17,7 +17,7 @@ cat Control.mod.bed | awk -F "\t" '$4 >= 0.9 {file="control_" $7 ".bed"; print $
 
 awk '!seen[$4]++ {first[$4]=$0} {count[$4]++} END {for (key in count) print first[key], count[key]}' treat_m6A.bed > treat_m6A.uniq.bed
 
-nohup python ./split.py -i Treat.mod.bed -p treat -v 0.9 &
-nohup python ./split.py -i WT.mod.bed -p wt -v 0.9 &
+nohup python ./split.py -i Treat.mod.bed -p treat -v 0.6 &
+nohup python ./split.py -i WT.mod.bed -p wt -v 0.6 &
 
 R CMD INSTALL legendBaseModel_0.0.6.tar.gz
