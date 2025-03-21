@@ -43,8 +43,8 @@ plot_metagene_Rd <- function(input_data, output_path, prefix, mod_type = "m6A") 
         annotate("text", x = 0.5, y = -0.14, label = "5'UTR") +
         annotate("text", x = 1.5, y = -0.14, label = "CDS") +
         annotate("text", x = 2.5, y = -0.14, label = "3'UTR")  +
-        annotate("rect", xmin = 0, xmax = 1, ymin = -0.08, ymax = -0.04, alpha = .99, colour = "black")+
-        annotate("rect", xmin = 2, xmax = 3, ymin = -0.08, ymax = -0.04, alpha = .99, colour = "black")+
+        annotate("rect", xmin = 0, xmax = 1, ymin = -0.08, ymax = -0.04, alpha = .99, colour = "black") +
+        annotate("rect", xmin = 2, xmax = 3, ymin = -0.08, ymax = -0.04, alpha = .99, colour = "black") +
         annotate("rect", xmin = 1, xmax = 2, ymin = -0.12, ymax = 0, alpha = .2, colour = "black") +
         xlab(paste0(mod_type, " metagene")) +
         ylab("Frequency") +
