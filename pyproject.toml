@@ -9,9 +9,16 @@ readme = "README.md"
 python = "^3.10"
 typer = "^0.15.1"
 pysam = "^0.22.1"
+pandas = "^2.2.3"
+scikit-learn = "^1.6.1"
 
 [tool.poetry.scripts]
 nanomd = "nanomd.main:app"
+
+[[tool.poetry.source]]
+name = "pypi2"
+url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+priority = "primary"
 
 [build-system]
 requires = ["poetry-core"]
