@@ -11,6 +11,9 @@ typer = "^0.15.1"
 pysam = "^0.22.1"
 pandas = "^2.2.3"
 scikit-learn = "^1.6.1"
+keras = "^3.9.2"
+jax = "^0.6.0"
+tensorflow = "^2.19.0"
 
 [tool.poetry.scripts]
 nanomd = "nanomd.main:app"
