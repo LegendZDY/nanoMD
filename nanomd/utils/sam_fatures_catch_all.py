@@ -11,7 +11,7 @@ import argparse
 import re
 import linecache
 
-def random_forest_data(samFile,base,fout):
+def random_forest_data(samFile, base, fout):
     """
     This function will organize a dict of features.
     :param samFile: Pandas DataFrame to subset the two classes from
