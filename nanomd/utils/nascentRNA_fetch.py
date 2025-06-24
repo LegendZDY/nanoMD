@@ -11,15 +11,15 @@ import pandas as pd
 import numpy as np
 from sklearn.impute import SimpleImputer
 import joblib
-import linecache
 import argparse
 
 
-def fetch_newRNA(sample,model):
-    Snames = ["read","UmisRate","UmisQrate","t_a_rate","t_a_Qrate","t_c_rate","t_c_Qrate","t_g_rate","t_g_Qrate","del_rate"]
+def fetch_reads(sample, model):
+    Snames = ["read", "UmisRate", "UmisQrate", "t_a_rate", "t_a_Qrate",
+              "t_c_rate", "t_c_Qrate", "t_g_rate", "t_g_Qrate", "del_rate"]
     Sdf = pd.read_csv(sample)
     Sdf = Sdf[Snames]
-    Sdf=Sdf.replace([np.inf, -np.inf], np.nan)
+    Sdf = Sdf.replace([np.inf, -np.inf], np.nan)
     Sdf.eval("""
     Um_UmQ = UmisRate*UmisQrate
     Um_t_a_rate = UmisRate*t_a_rate
@@ -57,30 +57,38 @@ def fetch_newRNA(sample,model):
     t_g_rate_t_g_Qrate = t_g_rate*t_g_Qrate
     t_g_rate_del_rate = t_g_rate*del_rate
     t_g_Qrate_del_rate = t_g_Qrate*del_rate
-    """,inplace=True)
-    S_test=Sdf.iloc[:,1:]
+    """, inplace=True)
+    S_test = Sdf.iloc[:, 1:]
     imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
-    S_test_t=imputer.fit_transform(S_test)
+    S_test_t = imputer.fit_transform(S_test)
     clf2 = joblib.load(model)
-    S_y=clf2.predict(S_test_t)
-    dict,i={},0
+    S_y = clf2.predict(S_test_t)
+    dict, i = {}, 0
     while i < len(S_y):
         if int(S_y[i]) == 1:
-            dict[Sdf["read"][i]]=1
-        i+=1
+            dict[Sdf["read"][i]] = 1
+        i += 1
     return dict
-def new_fq(sample,model,rawfq,newfq):
-    i=0
-    dict_new=fetch_newRNA(sample,model)
-    with open(newfq,'w') as fo:
-        list=linecache.getlines(rawfq)
-        while i < len(list):
-            if i%4==0:
-                if dict_new.get(list[i].strip().split()[0][1:],None)!=None:
-                    fo.write("{}\n{}\n{}\n{}\n".format(list[i].strip(),list[i+1].strip(),list[i+2].strip(),list[i+3].strip()))
-            i+=4
+
+def new_fq(sample, model, rawfq, newfq):
+    dict_new = fetch_reads(sample, model)
+    with open(newfq, 'w') as fo:
+        with open(rawfq, 'r') as fi:
+            while True:
+                try:
+                    line1 = next(fi).strip()
+                    line2 = next(fi).strip()
+                    line3 = next(fi).strip()
+                    line4 = next(fi).strip()
+                    if dict_new.get(line1.split()[0][1:], None) != None:
+                        fo.write("{}\n{}\n{}\n{}\n".format(
+                            line1, line2, line3, line4))
+                except StopIteration:
+                    break
+
 def main():
-    parser = argparse.ArgumentParser(description='Extract length and quality information of sequences form fastq file')
+    parser = argparse.ArgumentParser(
+        description='Extract length and quality information of sequences form fastq file')
     parser.add_argument('-s', '--signal', type=str, required=False,
                         help='sample raw data fecth raw signal')
     parser.add_argument('-r', '--rawfq', type=str, required=True,
@@ -91,6 +99,8 @@ def main():
                         help='Path to an output file to be created,default= ./')
     args = parser.parse_args()
     new_fq(args.signal, args.model, args.rawfq, args.out_file)
+
+
 if __name__ == '__main__':
     main()
 # new_fq("OV-FTO-2-0603.fastq.sam.csv", "test.pkl", "all.fastq", "new.fastq")

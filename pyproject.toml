@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nanomd"
-version = "0.1.0"
+version = "0.3.0"
 description = ""
 authors = ["DeYing Zhang <legendzdy@dingtalk.com>"]
 readme = "README.md"
