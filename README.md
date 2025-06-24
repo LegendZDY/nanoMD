@@ -57,39 +57,32 @@ It is recommended to use the docker or conda environment to run the pipeline.
 nanomd.py is the main module of nanoMD, which includes the following sub-modules:
 - gene
 - isoform
-- detectm6A
-- detectnewmRNA
+- detectMod
+- nascentRNA
 
 ## nanomd gene
 
-## test
-```bash
-nanomd detectMod -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p NC-2
-
-nanomd nascentRNA -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b U -m ~/soft/newRNA.pkl -p NC-2
-```
-
 ## Usage
 
-`nanomd.py gene -i sample -f genome.cdna.fa -e 0.005 -o gene`
+`nanomd gene -i ../input/{}/pass.fq.gz -r ../reference/fasta/genome.fa -o ./{}_gene.sam --parms '--secondary=no --cs -a --sam-hit-only'`
 
 ## nanomd isoform
 
 ## Usage
 
-`nanomd.py isoform -i sample -f genome.cdna.fa -e 0.005 -o isoform`
+`nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcript.fa -o ./{}_transcript.sam`
 
-## nanomd m6A sites
-
-## Usage
-
-`nanomd.py detectm6A -i sample -f genome.cdna.fa -e 0.005 -o m6A`
-
-## nanomd new mRNA
+## nanomd modification sites
 
 ## Usage
 
-`nanomd.py detectnewmRNA -i sample -f genome.cdna.fa -e 0.005 -o newmRNA`
+`detectMod -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p NC-2`
+
+## nanomd nascentRNA
+
+## Usage
+
+`nanomd nascentRNA -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b U -m ~/soft/newRNA.pkl -p NC-2`
 
 # Scripts
 

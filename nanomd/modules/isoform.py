@@ -16,7 +16,7 @@ def isoform(
     threads: Annotated[int, typer.Option("--threads", "-t", help="Number of threads.")]=4,
     ):
     """
-    Mapping of nanopore reads to a reference transcripts.
+    Mapping of nanopore reads to transcripts reference.
     """
     
     with Progress(
@@ -25,15 +25,15 @@ def isoform(
         transient=True,
     ) as progress:
         try:
-            progress.add_task(description="map reference...", total=None)
+            progress.add_task(description="map transcripts reference...", total=None)
             start=time.time()
             minimap2map(input, reference, output, tool, parms, threads)
             end=time.time()
             time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
-            print(f"map reference Done, time cost: {time_cost}")
-            progress.add_task(description=f"map reference Done, time cost: {time_cost}", total=None)
+            print(f"map transcripts reference Done, time cost: {time_cost}")
+            progress.add_task(description=f"map transcripts reference Done, time cost: {time_cost}", total=None)
         except Exception as e:
             print(f"Error: {e}")
-            progress.add_task(description="map reference Failed", total=None)
+            progress.add_task(description="map transcripts reference Failed", total=None)
             exit(1)
     
