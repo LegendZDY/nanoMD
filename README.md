@@ -76,7 +76,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Usage
 
-`detectMod -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p NC-2`
+`nanomd detectMod -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p NC-2`
 
 ## nanomd nascentRNA
 
