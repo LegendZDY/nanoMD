@@ -70,19 +70,19 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Usage
 
-`nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcript.fa -o ./{}_transcript.sam`
+`nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcripts.fa -o ./{}_transcripts.sam`
 
 ## nanomd modification sites
 
 ## Usage
 
-`nanomd detectMod -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p NC-2`
+`nanomd detectMod -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -b ../reference/genes/genes.bed -r ../reference/genes/region_sizes.txt  -p {}`
 
 ## nanomd nascentRNA
 
 ## Usage
 
-`nanomd nascentRNA -i ../input/NC-2/pass.fq.gz -s ../01_map_gene/NC-2_gene.sam -b U -m ~/soft/newRNA.pkl -p NC-2`
+`nanomd nascentRNA -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -b U -m ~/soft/newRNA.pkl -p {}`
 
 # Scripts
 
