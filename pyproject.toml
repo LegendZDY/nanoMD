@@ -1,6 +1,6 @@
 [project]
 name = "nanomd"
-version = "0.3.3"
+version = "0.3.4"
 description = ""
 authors = [
     {name = "DeYing Zhang",email = "legendzdy@dingtalk.com"}

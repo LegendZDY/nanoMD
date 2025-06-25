@@ -10,7 +10,7 @@ for other ways.Use at your own discretion.
 import pandas as pd
 import numpy as np
 from sklearn.impute import SimpleImputer
-import joblib
+import joblib, gzip
 import argparse
 
 
@@ -73,13 +73,13 @@ def fetch_reads(sample, model):
 def new_fq(sample, model, rawfq, newfq):
     dict_new = fetch_reads(sample, model)
     with open(newfq, 'w') as fo:
-        with open(rawfq, 'r') as fi:
+        with gzip.GzipFile(rawfq, "rb") as fi:
             while True:
                 try:
-                    line1 = next(fi).strip()
-                    line2 = next(fi).strip()
-                    line3 = next(fi).strip()
-                    line4 = next(fi).strip()
+                    line1 = next(fi).decode().strip()
+                    line2 = next(fi).decode().strip()
+                    line3 = next(fi).decode().strip()
+                    line4 = next(fi).decode().strip()
                     if dict_new.get(line1.split()[0][1:], None) != None:
                         fo.write("{}\n{}\n{}\n{}\n".format(
                             line1, line2, line3, line4))
