@@ -2,15 +2,15 @@
 
 [[package]]
 name = "basebio"
-version = "0.3.1"
+version = "0.3.2"
 description = ""
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
-    {file = "basebio-0.3.1-py3-none-any.whl", hash = "sha256:5acf94b9e90424c81322b1d442e8a0d3ffacdb6734b0fb4a523942b4eafdce71"},
-    {file = "basebio-0.3.1.tar.gz", hash = "sha256:f8368024ac516fb87cc3395428724ee7ef2f9e8868e5566b999ae2c5c9bb903d"},
+    {file = "basebio-0.3.2-py3-none-any.whl", hash = "sha256:aa01f4e159d5686bd5942d5fc5652d29f3d085276d9aa853f0ba3c81b3b5b2ce"},
+    {file = "basebio-0.3.2.tar.gz", hash = "sha256:3f7016b63edda229adda7b4a9247e84284f52a83b8c4cdd6fcd1252b48f91024"},
 ]
 
 [package.dependencies]
@@ -20,7 +20,7 @@ typer = ">=0.15.2"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -41,7 +41,7 @@ colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -59,7 +59,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -133,7 +133,7 @@ test = ["objgraph", "psutil"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -151,7 +151,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -182,7 +182,7 @@ testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -200,7 +200,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -271,7 +271,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -364,7 +364,7 @@ xml = ["lxml (>=4.9.2)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -385,7 +385,7 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -438,7 +438,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -459,7 +459,7 @@ six = ">=1.5"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -477,7 +477,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -495,7 +495,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -521,7 +521,7 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -577,7 +577,7 @@ tests = ["matplotlib (>=3.5.0)", "mypy (>=1.15)", "numpydoc (>=1.2.0)", "pandas 
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -647,7 +647,7 @@ test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -665,7 +665,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -683,7 +683,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -785,7 +785,7 @@ sqlcipher = ["sqlcipher3_binary"]
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -803,7 +803,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -827,7 +827,7 @@ typing-extensions = ">=3.7.4.3"
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -845,7 +845,7 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [[package]]
@@ -863,10 +863,10 @@ files = [
 
 [package.source]
 type = "legacy"
-url = "https://mirrors.sustech.edu.cn/pypi/web/simple"
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 reference = "pypi2"
 
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "2362d5f3217c76a6ac4a97ebb01ec6fe28ec7adfe8fdd0b25ff16a9ff0f66618"
+content-hash = "3b995cb73c94c2e5193384f675349ad92d396d03b3fc5cd005b98affd4fa72b9"

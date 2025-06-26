@@ -8,6 +8,7 @@ function map.
 """
 from basebio import run_command
 
+
 def minimap2map(input, reference, output, tool, params, threads):
     """
     map with minimap2.
@@ -25,15 +26,16 @@ def minimap2map(input, reference, output, tool, params, threads):
         command = [
             tool, *params_list, "-t", str(threads),
             reference, input, "-o", output
-            ]
-        use_shell = False
+        ]
+        run_command(command)
+
     elif suffix == "bam":
+        sam_name = output.replace(".bam", ".sam")
         command = [
             tool, *params_list, "-t", str(threads),
-            reference, input, "|", "samtools", 
-            "sort", "-@", str(threads), "-o", output, 
-            "&&", "samtools", "index", output
-            ]
-        use_shell = True
-    
-    run_command(command, use_shell=use_shell)
+            reference, input,  "-o", sam_name
+        ]
+        run_command(command)
+        run_command(["samtools", "view", "-bS", sam_name, "-o", output])
+        run_command(["rm", sam_name])
+        run_command(["samtools", "index", output])

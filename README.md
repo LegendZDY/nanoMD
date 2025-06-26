@@ -82,7 +82,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Usage
 
-`nanomd nascentRNA -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -b U -m ~/soft/newRNA.pkl -p {}`
+`nanomd nascentRNA -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -r ../reference/fasta/transcripts.fa -b U -m ~/soft/newRNA.pkl -p {}`
 
 # Scripts
 
