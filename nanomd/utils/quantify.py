@@ -33,7 +33,7 @@ def salmon_quantify(input, reference, output):
     """
     
     command = [
-        "salmon", "quant", "-p", "4",
+        "salmon", "quant", "--noErrorModel", "-p", "4",
         "-t", reference, "-l", "SF", 
         "-a", input, "-o", output
         ]
