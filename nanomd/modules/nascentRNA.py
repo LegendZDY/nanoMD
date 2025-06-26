@@ -14,8 +14,8 @@ def nascentRNA(
     input: Annotated[str, typer.Option("--input", "-i", help="Input fastq files.")],
     sam: Annotated[str, typer.Option("--sam", "-s", help="mapping sam/bam file.")],
     reference: Annotated[str, typer.Option("--reference", "-r", help="reference transcripts path.")],
-    base: Annotated[str, typer.Option("--base", "-b", help="choose one of AUGC.")],
     model: Annotated[str, typer.Option("--model", "-m", help="train model.")],
+    base: Annotated[str, typer.Option("--base", "-b", help="choose one of AUGC.")]="U",
     output: Annotated[str, typer.Option("--output", "-o", help="Output file path.")]=".",
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     ):

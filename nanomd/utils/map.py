@@ -38,4 +38,3 @@ def minimap2map(input, reference, output, tool, params, threads):
         run_command(command)
         run_command(["samtools", "view", "-bS", sam_name, "-o", output])
         run_command(["rm", sam_name])
-        run_command(["samtools", "index", output])
