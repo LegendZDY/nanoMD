@@ -2,8 +2,8 @@ import time
 import typer
 from typing_extensions import Annotated
 from rich.progress import Progress, SpinnerColumn, TextColumn
+from basebio import check_path_exists
 from ..utils.modtools import split_mod
-from ..utils.basetools import check_path_exists
 from ..utils.abs_position import gene_feature_distance_calculator
 from ..utils.modifications import form_reads_get_modifications
 
@@ -44,7 +44,8 @@ def detectMod(
         progress.add_task(description="Splitting modification sites Done", total=None)
 
         progress.add_task(description="Calculating absolute distance...", total=None)
-        bed_file_list = [f"{output}/{prefix}_m6A.bed", f"{output}/{prefix}_m5C.bed", f"{output}/{prefix}_psi.bed", f"{output}/{prefix}_AtoI.bed"]
+        bed_file_list = [f"{output}/{prefix}_m6A.bed", f"{output}/{prefix}_m5C.bed", 
+                         f"{output}/{prefix}_psi.bed", f"{output}/{prefix}_AtoI.bed"]
         for bed_file in bed_file_list:
             gfc_output = bed_file.replace(".bed", "_abs_dist.txt")
             if not check_path_exists(gfc_output):
