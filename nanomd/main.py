@@ -1,6 +1,7 @@
 import typer
 from .modules.gene import gene
 from .modules.isoform import isoform
+from .modules.matrix import matrix
 from .modules.detectMod import detectMod
 from .modules.isoformAS import isoformAS
 from .modules.nascentRNA import nascentRNA
@@ -15,6 +16,7 @@ def callback():
 
 app.command(name="gene")(gene)
 app.command(name="isoform")(isoform)
+app.command(name="matrix")(matrix)
 app.command(name="isoformAS")(isoformAS)
 app.command(name="detectMod")(detectMod)
 app.command(name="nascentRNA")(nascentRNA)
