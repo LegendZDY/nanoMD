@@ -11,8 +11,8 @@ app = typer.Typer()
 
 @app.command()
 def polyA(
-    inputs: Annotated[str, typer.Option("--inputs", "-i", help="Dir path of pod5 files.")],
-    output: Annotated[str, typer.Option("--output", "-o", help="Output file path.")]=".",
+    inputs: Annotated[Path, typer.Option("--inputs", "-i", help="Dir path of pod5 files.")],
+    output: Annotated[Path, typer.Option("--output", "-o", help="Output file path.")]=".",
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     ):
     """
@@ -30,9 +30,7 @@ def polyA(
         summary_file=f"{output}/{prefix}_summary.csv"
         progress.add_task(description="Getting fatures from sam files...", total=None)
         if not check_path_exists(summary_file):
-            inputs=Path(inputs)
-            output=Path(output)
-            convert_to_fast5_with_summary_file(inputs, output, summary_file)
+            convert_to_fast5_with_summary_file([inputs], output, summary_file)
         progress.add_task(description=f"Getting fatures from sam files Done", total=None)
 
         # output_fastq=f"{output}/{prefix}_nascentRNA.fastq"
