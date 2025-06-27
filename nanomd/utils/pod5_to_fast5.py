@@ -18,7 +18,7 @@ from pod5.tools.pod5_convert_to_fast5 import *
 def convert_to_fast5_with_summary_file(
     inputs: List[Path],
     output: Path,
-    summary_file: Path,
+    summary_file: str,
     recursive: bool = False,
     threads: int = DEFAULT_THREADS,
     force_overwrite: bool = False,

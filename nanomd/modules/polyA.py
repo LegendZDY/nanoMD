@@ -27,7 +27,7 @@ def polyA(
         progress.add_task(description="Detecting nascent RNA start...", total=None)
         start=time.time()
         
-        summary_file=f"{output}/{prefix}_summary.csv"
+        summary_file=f"{prefix}_summary.csv"
         progress.add_task(description="Getting fatures from sam files...", total=None)
         if not check_path_exists(summary_file):
             convert_to_fast5_with_summary_file([inputs], output, summary_file)
