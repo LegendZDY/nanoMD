@@ -38,7 +38,7 @@ def convert_to_fast5_with_summary_file(
             collect_inputs(inputs, recursive, "*.pod5", threads=threads)
         ):
             # Open the inputs to read the read ids
-            with open(summary_file, "r") as fo:
+            with open(summary_file, "w") as fo:
                 with p5.Reader(source) as reader:
                     for chunk_idx, read_ids in enumerate(
                         chunked(reader.read_ids, file_read_count)
