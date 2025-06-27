@@ -29,7 +29,7 @@ def polyA(
         
         summary_file=f"{prefix}_summary.csv"
         if isinstance(inputs, str):
-            input_dirs = sorted(glob.glob(inputs))
+            input_dirs = sorted([Path(p) for p in glob.glob(inputs)])
         elif not inputs:
             raise ValueError("inputs should not be empty")
         progress.add_task(description="Getting fatures from sam files...", total=None)
