@@ -11,7 +11,7 @@ app = typer.Typer()
 
 @app.command()
 def polyA(
-    inputs: Annotated[str, typer.Argument("--inputs", "-i", help="Dir path of pod5 files.")],
+    inputs: Annotated[str, typer.Option("--inputs", "-i", help="Dir path of pod5 files.")],
     output: Annotated[str, typer.Option("--output", "-o", help="Output file path.")]=".",
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     ):
