@@ -16,7 +16,7 @@ def polyA(
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     ):
     """
-    Detect polyA RNA using mapping sam/bam file and fastq files. And quantify them using salmon.
+    Detect polyA with pod5 and fastq files.
     """
     
     with Progress(
@@ -24,7 +24,7 @@ def polyA(
         TextColumn("[progress.description]{task.description}"),
         transient=True,
     ) as progress:
-        progress.add_task(description="Detecting nascent RNA start...", total=None)
+        progress.add_task(description="Detect polyA start...", total=None)
         start=time.time()
         
         summary_file=f"{prefix}_summary.csv"
@@ -32,10 +32,10 @@ def polyA(
             input_dirs = sorted([Path(p) for p in glob.glob(inputs)])
         elif not inputs:
             raise ValueError("inputs should not be empty")
-        progress.add_task(description="Getting fatures from sam files...", total=None)
+        progress.add_task(description="Pod5 to fast5...", total=None)
         if not check_path_exists(summary_file):
             convert_to_fast5_with_summary_file(input_dirs, output, summary_file, fastq)
-        progress.add_task(description=f"Getting fatures from sam files Done", total=None)
+        progress.add_task(description=f"Pod5 to fast5 Done", total=None)
 
         # output_fastq=f"{output}/{prefix}_nascentRNA.fastq"
         # progress.add_task(description="Getting nascentRNA reads...", total=None)
@@ -57,5 +57,5 @@ def polyA(
 
         end=time.time()
         time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
-        print(f"Detect nascent RNA Done, time cost: {time_cost}")
-        progress.add_task(description=f"Detect nascent RNA Done, time cost: {time_cost}", total=None)
+        print(f"Detect polyA Done, time cost: {time_cost}")
+        progress.add_task(description=f"Detect polyA Done, time cost: {time_cost}", total=None)
