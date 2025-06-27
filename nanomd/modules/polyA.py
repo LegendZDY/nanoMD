@@ -1,6 +1,5 @@
 import time
-import typer
-from typing import List
+import typer, glob
 from pathlib import Path
 from typing_extensions import Annotated
 from rich.progress import Progress, SpinnerColumn, TextColumn
@@ -11,7 +10,8 @@ app = typer.Typer()
 
 @app.command()
 def polyA(
-    inputs: Annotated[Path, typer.Option("--inputs", "-i", help="Dir path of pod5 files.")],
+    inputs: Annotated[str, typer.Option("--inputs", "-i", help="Regular matching pattern for pod5 files, such as 'path/to/*pod5'.")],
+    fastq: Annotated[str, typer.Option("--fastq", "-f", help="Fastq file name.")],
     output: Annotated[Path, typer.Option("--output", "-o", help="Output file path.")]=".",
     prefix: Annotated[str, typer.Option("--prefix", "-p", help="Prefix for output files.")]="prefix",
     ):
@@ -28,9 +28,13 @@ def polyA(
         start=time.time()
         
         summary_file=f"{prefix}_summary.csv"
+        if isinstance(inputs, str):
+            input_dirs = sorted(glob.glob(inputs))
+        elif not inputs:
+            raise ValueError("inputs should not be empty")
         progress.add_task(description="Getting fatures from sam files...", total=None)
         if not check_path_exists(summary_file):
-            convert_to_fast5_with_summary_file([inputs], output, summary_file)
+            convert_to_fast5_with_summary_file(input_dirs, output, summary_file, fastq)
         progress.add_task(description=f"Getting fatures from sam files Done", total=None)
 
         # output_fastq=f"{output}/{prefix}_nascentRNA.fastq"

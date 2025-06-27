@@ -19,6 +19,7 @@ def convert_to_fast5_with_summary_file(
     inputs: List[Path],
     output: Path,
     summary_file: str,
+    fastq_name: str,
     recursive: bool = False,
     threads: int = DEFAULT_THREADS,
     force_overwrite: bool = False,
@@ -28,6 +29,10 @@ def convert_to_fast5_with_summary_file(
         raise FileExistsError("Cannot output to a file")
 
     threads = limit_threads(threads)
+    columns = ["filename_fastq", "filename_fast5", "read_id", "run_id", "channel", "mux", "start_time", "duration", "num_events", "passes_filtering", "template_start", "num_events_template", "template_duration", "sequence_length_template", "mean_qscore_template", "strand_score_template", "median_template", "mad_template", "pore_type", "experiment_id", "sample_id", "end_reason", "alias", "type", "barcode_arrangement", "barcode_full_arrangement", "barcode_kit", "barcode_variant", "barcode_score", "barcode_front_id", "barcode_front_score", "barcode_front_refseq", "barcode_front_foundseq", "barcode_front_foundseq_length", "barcode_front_begin_index", "barcode_rear_id", "barcode_rear_score", "barcode_rear_refseq", "barcode_rear_foundseq", "barcode_rear_foundseq_length", "barcode_rear_end_index"]
+
+    # 数据行（单行列表）
+    data_row = ["test", "885", "1", "56.132750", "0.756500", "605", "TRUE", "56.154000", "588", "0.735250", "153", "8.314826", "0.000000", "94.303551", "8.406906", "not_set", "20220426-CDS0204-PAK00515", "no_sample", "signal_positive", "barcode11", "test_sample", "barcode11", "LWB11_var1", "LWB", "var1", "92.750000", "BC11_FWD", "89.250000", "CCGTGACGTT", "51", "34", "BC11_REV", "92.750000", "GCAATAA", "GCACATC", "52", "20"]
 
     with ProcessPoolExecutor(max_workers=threads) as executor:
         total_reads = 0
@@ -39,6 +44,7 @@ def convert_to_fast5_with_summary_file(
         ):
             # Open the inputs to read the read ids
             with open(summary_file, "w") as fo:
+                fo.write("\t".join(columns) + "\n")
                 with p5.Reader(source) as reader:
                     for chunk_idx, read_ids in enumerate(
                         chunked(reader.read_ids, file_read_count)
@@ -46,8 +52,6 @@ def convert_to_fast5_with_summary_file(
                         dest = (
                             output / f"{source.stem}.{chunk_idx}_{input_idx}.fast5"
                         ).resolve()
-                        for read_id in read_ids:
-                            fo.write(f"{read_ids}\t{dest}\n")
 
                         if dest.exists() and not force_overwrite:
                             raise FileExistsError(
@@ -60,6 +64,10 @@ def convert_to_fast5_with_summary_file(
                             "read_ids": read_ids,
                         }
                         futures[executor.submit(convert_pod5_to_fast5, **kwargs)] = dest  # type: ignore
+
+                        for read_id in read_ids:
+                            raw = [fastq_name, f"{source.stem}.{chunk_idx}_{input_idx}.fast5", read_id] + data_row
+                            fo.write("\t".join(raw) + "\n")
 
                     total_reads += len(reader.read_ids)
 
