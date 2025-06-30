@@ -27,7 +27,7 @@ def polyA(
         progress.add_task(description="Detect polyA start...", total=None)
         start=time.time()
         
-        summary_file=f"{prefix}_summary.csv"
+        summary_file=f"{prefix}_summary.txt"
         input_name=Path(input).name
         if isinstance(pod5s, str):
             pod5s_dir = sorted([Path(p) for p in glob.glob(pod5s)])
@@ -41,7 +41,6 @@ def polyA(
         # output_fastq=f"{output}/{prefix}_nascentRNA.fastq"
         progress.add_task(description="Indexing reads...", total=None)
         # if not check_path_exists(output_fastq):
-        #     new_fq(output_file, model, input, output_fastq)
         index_fastq(output, summary_file, input)
         progress.add_task(description="Indexing reads Done", total=None)
 
