@@ -2,15 +2,15 @@
 
 [[package]]
 name = "basebio"
-version = "0.3.2"
+version = "0.3.4"
 description = ""
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
-    {file = "basebio-0.3.2-py3-none-any.whl", hash = "sha256:aa01f4e159d5686bd5942d5fc5652d29f3d085276d9aa853f0ba3c81b3b5b2ce"},
-    {file = "basebio-0.3.2.tar.gz", hash = "sha256:3f7016b63edda229adda7b4a9247e84284f52a83b8c4cdd6fcd1252b48f91024"},
+    {file = "basebio-0.3.4-py3-none-any.whl", hash = "sha256:2483b3326e2e69b9508ea0f0d4d2a6e7104c987e176497d7fa1c709178ebd855"},
+    {file = "basebio-0.3.4.tar.gz", hash = "sha256:256aaa2ee6289f4c958bf6d0d3a7f53fabee30ef7fde14baead7b2d21c228331"},
 ]
 
 [package.dependencies]
@@ -1212,4 +1212,4 @@ reference = "pypi2"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "7174e601405960b3bbb9e3af05fa593396a9c7d743760225de57059555d47ece"
+content-hash = "99ef60a3066b38d07d7f134423516bb4f7d9c9499dde63a35763d519753424ab"

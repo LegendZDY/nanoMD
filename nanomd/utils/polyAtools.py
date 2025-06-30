@@ -14,6 +14,7 @@ from more_itertools import chunked
 import pod5 as p5
 from pod5.tools.utils import DEFAULT_THREADS, collect_inputs, limit_threads
 from pod5.tools.pod5_convert_to_fast5 import *
+from basebio import run_command
 
 def convert_to_fast5_with_summary_file(
     inputs: List[Path],
@@ -88,3 +89,36 @@ def convert_to_fast5_with_summary_file(
         status.print_status(force=True)
 
         print("Conversion complete")
+
+def index_fastq(fast5_dir, summary_file, fastq):
+    """
+    Index the fastq file using nanopolish index.
+    
+    Args:
+        fast5_dir (str): The directory where the fast5 files are located.
+        summary_file (str): The path to the sequencing summary file.
+        fastq (str): The path to the fastq file.
+    
+    Examples:
+        index_fastq("fast5_dir", "summary.txt", "fastq.gz")
+    """
+
+    cmd = f"nanopolish index --directory={fast5_dir} --sequencing-summary={summary_file} {fastq}".split()
+    run_command(cmd)
+
+def detect_polyA(fastq, bam, transcriptome, threads=8):
+    """
+    Detect polyA using nanopolish polya.
+
+    Args:
+        fastq (str): The path to the fastq file.
+        bam (str): The path to the bam file.
+        transcriptome (str): The path to the transcriptome file.
+        threads (int): The number of threads to use.
+
+    Examples:
+        detect_polyA("fastq.gz", "bam", "transcriptome.fa", threads=8)
+    """
+
+    cmd = f"nanopolish polya --threads={threads} --reads={fastq} --bam={bam} --genome={transcriptome} > polya_results.tsv"
+    run_command(cmd, use_shell=True)
