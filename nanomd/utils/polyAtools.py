@@ -106,7 +106,7 @@ def index_fastq(fast5_dir, summary_file, fastq):
     cmd = f"nanopolish index --directory={fast5_dir} --sequencing-summary={summary_file} {fastq}".split()
     run_command(cmd)
 
-def detect_polyA(fastq, bam, transcriptome, threads=8):
+def detect_polyA(fastq, bam, transcriptome, output_ploya, threads=8):
     """
     Detect polyA using nanopolish polya.
 
@@ -114,11 +114,12 @@ def detect_polyA(fastq, bam, transcriptome, threads=8):
         fastq (str): The path to the fastq file.
         bam (str): The path to the bam file.
         transcriptome (str): The path to the transcriptome file.
+        output_ploya (str): The path to the output polyA file.
         threads (int): The number of threads to use.
 
     Examples:
-        detect_polyA("fastq.gz", "bam", "transcriptome.fa", threads=8)
+        detect_polyA("fastq.gz", "bam", "transcriptome.fa", "polyA.tsv", threads=8)
     """
 
-    cmd = f"nanopolish polya --threads={threads} --reads={fastq} --bam={bam} --genome={transcriptome} > polya_results.tsv"
+    cmd = f"nanopolish polya --threads={threads} --reads={fastq} --bam={bam} --genome={transcriptome} > {output_ploya}"
     run_command(cmd, use_shell=True)
