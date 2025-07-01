@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 from rich.progress import track
 from typing_extensions import Annotated
-from ..utils.map import minimap2map
+from basebio import minimap2
 
 app = typer.Typer()
 
@@ -19,4 +19,4 @@ def isoformAS(
     """
     alternative splicing analysis.
     """
-    minimap2map(input, reference, prefix, tool, parms, threads)
+    minimap2(input, reference, prefix, tool, parms, threads)
