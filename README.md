@@ -1,13 +1,44 @@
 # nanoMD
 
 nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A sites, genes, and isoforms, and new mRNA.
-
-# Table of Contents
 <!-- TOC -->
 
 - [nanoMD](#nanomd)
-- [Table of Contents](#table-of-contents)
 - [Overview](#overview)
+- [Requirements](#requirements)
+- [nanoMD modules](#nanomd-modules)
+    - [nanomd gene](#nanomd-gene)
+    - [Usage](#usage)
+    - [nanomd isoform](#nanomd-isoform)
+    - [Usage](#usage)
+    - [nanomd modification sites](#nanomd-modification-sites)
+    - [Usage](#usage)
+    - [nanomd nascentRNA](#nanomd-nascentrna)
+    - [Usage](#usage)
+- [Scripts](#scripts)
+    - [detect5EU.py](#detect5eupy)
+    - [Usage](#usage)
+- [Docker](#docker)
+- [Conda Environment](#conda-environment)
+- [Cite nanoMD](#cite-nanomd)
+
+<!-- /TOC -->ules](#nanomd-modules)
+    - [nanomd gene](#nanomd-gene)
+    - [Usage](#usage)
+    - [nanomd isoform](#nanomd-isoform)
+    - [Usage](#usage)
+    - [nanomd modification sites](#nanomd-modification-sites)
+    - [Usage](#usage)
+    - [nanomd nascentRNA](#nanomd-nascentrna)
+    - [Usage](#usage)
+- [Scripts](#scripts)
+    - [detect5EU.py](#detect5eupy)
+    - [Usage](#usage)
+- [Docker](#docker)
+- [Conda Environment](#conda-environment)
+- [Cite nanoMD](#cite-nanomd)
+
+<!-- /TOC -->#overview)
 - [Requirements](#requirements)
 - [nanoMD modules](#nanomd-modules)
     - [nanomd gene](#nanomd-gene)
@@ -59,6 +90,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 - isoform
 - detectMod
 - nascentRNA
+- polyA
 
 ## nanomd gene
 
@@ -83,6 +115,12 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 ## Usage
 
 `nanomd nascentRNA -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -r ../reference/fasta/transcripts.fa -m ~/soft/newRNA.pkl -p {}`
+
+## nanomd polyA
+
+## Usage
+
+`nanomd polyA -i ./pass.fq.gz --pod5s='./pod5_pass/*pod5' --transcriptome=$ref -p Ctrl-1`
 
 # Scripts
 

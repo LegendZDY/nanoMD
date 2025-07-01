@@ -3,8 +3,7 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250217
-Description:
-function map.
+Description: split modification bed file into single bed files.
 """
 def split_mod(input, prefix):
     """

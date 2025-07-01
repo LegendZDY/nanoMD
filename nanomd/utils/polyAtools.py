@@ -3,8 +3,7 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250612
-Description:
-function map.
+Description: This file contains the functions for converting pod5 files to fast5 files and indexing the fastq file using nanopolish index.
 """
 from concurrent.futures import Future, ProcessPoolExecutor, as_completed
 from pathlib import Path

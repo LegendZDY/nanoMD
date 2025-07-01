@@ -4,9 +4,7 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250210
-Description:
-This Script of raw fq data from Legendzdy.  Of course, this means there's a possibility
-for other ways.Use at your own discretion.
+Description: This file is used to get modifications from reads.
 """
 
 import re

@@ -3,10 +3,8 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250218
-Description:
-function position calculator.
+Description: This file is used to calculate the relative and absolute distances from UTR and CDS endpoints.
 """
-
 class gene_feature_distance_calculator:
     """
     calculate the relative and absolute distances from UTR and CDS endpoints

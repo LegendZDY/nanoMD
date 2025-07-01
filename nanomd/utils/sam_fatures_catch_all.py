@@ -14,8 +14,14 @@ import re
 def random_forest_data(samFile, base, fout):
     """
     This function will organize a dict of features.
-    :param samFile: Pandas DataFrame to subset the two classes from
-    :param fout: outfile
+
+    Args:
+        samFile: the SAM file to be analyzed
+        base: the base to be analyzed, one of A, U, G, C
+        fout: the output file name
+    
+    Example:
+        random_forest_data("test.sam", "U", "test_U.csv")
     """
     transcript_lengths = {}
     S = re.compile(r'\d+S')
@@ -221,4 +227,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-# random_forest_data("CTL2-0601.fastq.sam","test.csv")

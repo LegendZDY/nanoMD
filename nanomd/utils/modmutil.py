@@ -4,9 +4,7 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250210
-Description:
-This Script of raw fq data from Legendzdy.  Of course, this means there's a possibility
-for other ways.Use at your own discretion.
+Description: This file is used to get the modification position and p-value from the raw fastq data.
 """
 import argparse
 import re
@@ -15,6 +13,29 @@ import pysam
 import concurrent.futures
 
 class getModifications:
+    """
+    This class is used to get the modification position and p-value from the raw fastq data.
+
+    Attributes:
+        inputFq: the input fastq file.
+        samFile: the input sam file.
+        bedFile: the input bed file.
+        output: the output file.
+        workers: the number of workers.
+
+    Methods:
+        getAnnotation: get the annotation information from the bed file.
+        posFind: find the modification position from the modification list.
+        intersectionPosition: find the intersection position between the read and the reference.
+        process_record: process the fastq record.
+        get_mod_position_with_read: get the modification position and p-value from the raw fastq data.
+        get_mod_position_with_sam: get the modification position and p-value from the sam file.
+    
+    Example:
+        mod = getModifications("input.fq.gz", "input.sam", "input.bed", "output.txt", 4)
+        mod.get_mod_position_with_sam()
+    """
+
     BASE_PATTERNS = {
         'A': re.compile(r'A'),
         'T': re.compile(r'T'),

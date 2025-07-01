@@ -3,14 +3,12 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20250612
-Description:
-function map.
+Description: This file contains the quantification function.
 """
 import os, glob
 import pandas as pd
 from collections import OrderedDict
-from basebio import run_command
-from .map import minimap2map
+from basebio import run_command, minimap2
 
 def salmon_map(input, reference, output):
     """
@@ -23,7 +21,7 @@ def salmon_map(input, reference, output):
     tool = "minimap2"
     parms = "--secondary=no --cs -a"
     threads = 4
-    minimap2map(input, reference, output, tool, parms, threads)
+    minimap2(input, reference, output, tool, parms, threads)
     
 
 def salmon_quantify(input, reference, output):

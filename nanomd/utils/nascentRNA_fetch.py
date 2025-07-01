@@ -3,9 +3,7 @@ __author__ = "legendzdy@dingtalk.com"
 """
 Author: legendzdy@dingtalk.com
 Data: 20201224
-Description:
-This Script of ONTrnaDirectSeq from Legendzdy.  Of course, this means there's a possibility
-for other ways.Use at your own discretion.
+Description: This script is used to extract length and quality information of sequences form fastq file.
 """
 import pandas as pd
 import numpy as np
@@ -71,6 +69,19 @@ def fetch_reads(sample, model):
     return dict
 
 def new_fq(sample, model, rawfq, newfq):
+    """
+    This function is used to extract length and quality information of sequences form fastq file.
+
+    Args:
+        sample: sample raw data fecth raw signal
+        model: train model
+        rawfq: sample raw fastq data
+        newfq: Path to an output file to be created,default= ./
+    
+    Example:
+        new_fq(sample, model, rawfq, newfq)
+    
+    """
     dict_new = fetch_reads(sample, model)
     with open(newfq, 'w') as fo:
         with gzip.GzipFile(rawfq, "rb") as fi:
@@ -103,4 +114,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-# new_fq("OV-FTO-2-0603.fastq.sam.csv", "test.pkl", "all.fastq", "new.fastq")
