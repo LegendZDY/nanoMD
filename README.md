@@ -1,6 +1,7 @@
 # nanoMD
 
 nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A sites, genes, and isoforms, and new mRNA.
+
 <!-- TOC -->
 
 - [nanoMD](#nanomd)
@@ -11,43 +12,11 @@ nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed 
     - [Usage](#usage)
     - [nanomd isoform](#nanomd-isoform)
     - [Usage](#usage)
-    - [nanomd modification sites](#nanomd-modification-sites)
+    - [nanomd detectMod](#nanomd-detectmod)
     - [Usage](#usage)
     - [nanomd nascentRNA](#nanomd-nascentrna)
     - [Usage](#usage)
-- [Scripts](#scripts)
-    - [detect5EU.py](#detect5eupy)
-    - [Usage](#usage)
-- [Docker](#docker)
-- [Conda Environment](#conda-environment)
-- [Cite nanoMD](#cite-nanomd)
-
-<!-- /TOC -->ules](#nanomd-modules)
-    - [nanomd gene](#nanomd-gene)
-    - [Usage](#usage)
-    - [nanomd isoform](#nanomd-isoform)
-    - [Usage](#usage)
-    - [nanomd modification sites](#nanomd-modification-sites)
-    - [Usage](#usage)
-    - [nanomd nascentRNA](#nanomd-nascentrna)
-    - [Usage](#usage)
-- [Scripts](#scripts)
-    - [detect5EU.py](#detect5eupy)
-    - [Usage](#usage)
-- [Docker](#docker)
-- [Conda Environment](#conda-environment)
-- [Cite nanoMD](#cite-nanomd)
-
-<!-- /TOC -->#overview)
-- [Requirements](#requirements)
-- [nanoMD modules](#nanomd-modules)
-    - [nanomd gene](#nanomd-gene)
-    - [Usage](#usage)
-    - [nanomd isoform](#nanomd-isoform)
-    - [Usage](#usage)
-    - [nanomd modification sites](#nanomd-modification-sites)
-    - [Usage](#usage)
-    - [nanomd nascentRNA](#nanomd-nascentrna)
+    - [nanomd polyA](#nanomd-polya)
     - [Usage](#usage)
 - [Scripts](#scripts)
     - [detect5EU.py](#detect5eupy)
@@ -57,6 +26,8 @@ nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed 
 - [Cite nanoMD](#cite-nanomd)
 
 <!-- /TOC -->
+
+
 
 # Overview
 
@@ -104,7 +75,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 `nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcripts.fa -o ./{}_transcripts.sam`
 
-## nanomd modification sites
+## nanomd detectMod
 
 ## Usage
 
