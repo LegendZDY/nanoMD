@@ -225,9 +225,8 @@ class PolyADetector:
         
         return {
             "read_name": read_name,
-            "strand": "Forward" if flag == 0 else "Reverse",
             "ref_name": read.reference_name,
-            "clip_length": op_len,
+            "strand": "+" if flag == 0 else "-",
             "polyA_region_length": total_length,
             "a_count": a_count,
             "a_ratio": a_ratio,
@@ -236,16 +235,15 @@ class PolyADetector:
     
     def analyze(self):
         with open(self.output_path, 'w') as fout:
-            fout.write("ReadName\tStrand\tRefName\tClipLength\tPolyARegionLength\tACount\tARatio\tHasPolyA\n")
+            fout.write("readName\trefName\tstrand\tpolyALength\tACount\tARatio\tHasPolyA\n")
             with pysam.AlignmentFile(self.bam_path, "rb") as bam:
                 for read in bam:
                     result = self.process_read(read)
                     if result:
                         fout.write("\t".join([
                             result["read_name"],
-                            result["strand"],
                             result["ref_name"],
-                            str(result["clip_length"]),
+                            result["strand"],
                             str(result["polyA_region_length"]),
                             str(result["a_count"]),
                             f"{result['a_ratio']:.3f}",
