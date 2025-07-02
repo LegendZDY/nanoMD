@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Dict, List
 from more_itertools import chunked
 
+import pysam
 import pod5 as p5
 from pod5.tools.utils import DEFAULT_THREADS, collect_inputs, limit_threads
 from pod5.tools.pod5_convert_to_fast5 import *
@@ -122,3 +123,131 @@ def detect_polyA(fastq, bam, transcriptome, output_ploya, threads=8):
 
     cmd = f"nanopolish polya --threads={threads} --reads={fastq} --bam={bam} --genome={transcriptome} > {output_ploya}"
     run_command(cmd, use_shell=True)
+
+class PolyADetector:
+    """
+    polyA detector.
+
+    Args:
+        bam_path (str): The path to the bam file.
+        output_path (str): The path to the output file.
+        min_a_length (int): The minimum length of polyA.
+        max_non_a (int): The maximum number of non-A bases allowed in polyA.
+    
+    Examples:
+        detector = PolyADetector("bam", "polyA.tsv", min_a_length=10, max_non_a=3)
+        detector.analyze()
+    """
+    def __init__(self, bam_path, output_path, min_a_length=6, max_non_a=3):
+        self.bam_path = bam_path
+        self.output_path = output_path
+        self.min_a_length = min_a_length
+        self.max_non_a = max_non_a
+    
+    def find_longest_polyA(self, seq):
+        """
+        Find the longest polyA in a sequence.
+        """
+        if not seq:
+            return 0, 0, 0.0
+        
+        n = len(seq)
+        left = 0
+        non_a_count = 0
+        max_length = 0
+        a_count_in_max = 0
+        
+        for right in range(n):
+            # 更新非A碱基计数
+            if seq[right].upper() != 'A':
+                non_a_count += 1
+            
+            # 移动左指针直到非A碱基数量在允许范围内
+            while non_a_count > self.max_non_a:
+                if seq[left].upper() != 'A':
+                    non_a_count -= 1
+                left += 1
+            
+            # 计算当前窗口长度和A碱基数量
+            current_length = right - left + 1
+            current_a_count = current_length - non_a_count
+            
+            # 检查当前窗口是否更长
+            if current_length > max_length:
+                max_length = current_length
+                a_count_in_max = current_a_count
+        
+        # 计算A的比例
+        a_ratio = a_count_in_max / max_length if max_length > 0 else 0.0
+        
+        return max_length, a_count_in_max, a_ratio
+    
+    def process_read(self, read):
+        # 跳过未比对的read
+        if read.is_unmapped or not read.cigartuples:
+            return None
+        
+        read_name = read.query_name
+        seq = read.query_sequence
+        if not seq:  # 跳过空序列
+            return None
+            
+        flag = read.flag
+        cigar = read.cigartuples
+        
+        # 确定需要检查的CIGAR操作位置
+        if flag == 0:    # 正向比对
+            target_op = cigar[-1]  # 最后一个操作
+        elif flag == 16: # 反向比对
+            target_op = cigar[0]   # 第一个操作
+        else:
+            return None  # 跳过其他比对方向
+        
+        op_type, op_len = target_op
+        
+        # 只处理软裁剪操作（S=4）
+        if op_type != 4:
+            return None
+        
+        # 提取待检测序列
+        if flag == 0:
+            # 正向比对：取序列末尾的软裁剪区域
+            target_seq = seq[-op_len:] if op_len <= len(seq) else seq
+        else:  # flag == 16
+            # 反向比对：取序列开头的软裁剪区域
+            target_seq = seq[:op_len] if op_len <= len(seq) else seq
+        
+        # 在目标序列中查找最长连续A（允许少量非A）
+        total_length, a_count, a_ratio = self.find_longest_polyA(target_seq)
+        
+        # 判断是否存在polyA
+        has_polyA = a_count >= self.min_a_length
+        
+        return {
+            "read_name": read_name,
+            "strand": "Forward" if flag == 0 else "Reverse",
+            "ref_name": read.reference_name,
+            "clip_length": op_len,
+            "polyA_region_length": total_length,
+            "a_count": a_count,
+            "a_ratio": a_ratio,
+            "has_polyA": "Yes" if has_polyA else "No"
+        }
+    
+    def analyze(self):
+        with open(self.output_path, 'w') as fout:
+            fout.write("ReadName\tStrand\tRefName\tClipLength\tPolyARegionLength\tACount\tARatio\tHasPolyA\n")
+            with pysam.AlignmentFile(self.bam_path, "rb") as bam:
+                for read in bam:
+                    result = self.process_read(read)
+                    if result:
+                        fout.write("\t".join([
+                            result["read_name"],
+                            result["strand"],
+                            result["ref_name"],
+                            str(result["clip_length"]),
+                            str(result["polyA_region_length"]),
+                            str(result["a_count"]),
+                            f"{result['a_ratio']:.3f}",
+                            result["has_polyA"]
+                        ]) + "\n")

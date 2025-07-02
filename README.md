@@ -49,10 +49,6 @@ It is recommended to use the docker or conda environment to run the pipeline.
 3. minimap2
 4. samtools
 5. bedtools
-6. flair
-7. tombo
-8. mines
-9. metaPlotR
 
 # nanoMD modules
 
@@ -91,7 +87,7 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Usage
 
-`nanomd polyA -i ./pass.fq.gz --pod5s='./pod5_pass/*pod5' --transcriptome=$ref -p Ctrl-1`
+`nanomd polyA -i ./pass.fq.gz --transcriptome=$ref -o . -p Ctrl-1`
 
 # Scripts
 
