@@ -146,16 +146,18 @@ class PolyADetector:
     
     def find_longest_polyA(self, seq):
         """
-        Find the longest polyA in a sequence.
+        Use sliding window algorithm to find the longest consecutive A sequence, allowing a few non-A bases.
         """
         if not seq:
-            return 0, 0, 0.0
+            return "", 0, 0, 0.0
         
         n = len(seq)
         left = 0
         non_a_count = 0
         max_length = 0
         a_count_in_max = 0
+        best_start = 0
+        best_end = -1
         
         for right in range(n):
             # 更新非A碱基计数
@@ -176,11 +178,16 @@ class PolyADetector:
             if current_length > max_length:
                 max_length = current_length
                 a_count_in_max = current_a_count
+                best_start = left
+                best_end = right
         
         # 计算A的比例
         a_ratio = a_count_in_max / max_length if max_length > 0 else 0.0
         
-        return max_length, a_count_in_max, a_ratio
+        # 提取polyA序列
+        polyA_seq = seq[best_start:best_end+1] if max_length > 0 else ""
+        
+        return polyA_seq, max_length, a_count_in_max, a_ratio
     
     def process_read(self, read):
         # 跳过未比对的read
@@ -218,7 +225,7 @@ class PolyADetector:
             target_seq = seq[:op_len] if op_len <= len(seq) else seq
         
         # 在目标序列中查找最长连续A（允许少量非A）
-        total_length, a_count, a_ratio = self.find_longest_polyA(target_seq)
+        polyA_seq, total_length, a_count, a_ratio = self.find_longest_polyA(target_seq)
         
         # 判断是否存在polyA
         has_polyA = a_count >= self.min_a_length
@@ -227,6 +234,7 @@ class PolyADetector:
             "read_name": read_name,
             "ref_name": read.reference_name,
             "strand": "+" if flag == 0 else "-",
+            "polyA_seq": polyA_seq,
             "polyA_region_length": total_length,
             "a_count": a_count,
             "a_ratio": a_ratio,
@@ -235,7 +243,7 @@ class PolyADetector:
     
     def analyze(self):
         with open(self.output_path, 'w') as fout:
-            fout.write("readName\trefName\tstrand\tpolyALength\tACount\tARatio\tHasPolyA\n")
+            fout.write("readName\trefName\tstrand\tpolyASeq\tpolyALength\tACount\tARatio\tHasPolyA\n")
             with pysam.AlignmentFile(self.bam_path, "rb") as bam:
                 for read in bam:
                     result = self.process_read(read)
@@ -244,6 +252,7 @@ class PolyADetector:
                             result["read_name"],
                             result["ref_name"],
                             result["strand"],
+                            result["polyA_seq"],
                             str(result["polyA_region_length"]),
                             str(result["a_count"]),
                             f"{result['a_ratio']:.3f}",
