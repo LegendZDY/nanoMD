@@ -135,7 +135,7 @@ class PolyADetector:
         max_non_a (int): The maximum number of non-A bases allowed in polyA.
     
     Examples:
-        detector = PolyADetector("bam", "polyA.tsv", min_a_length=10, max_non_a=3)
+        detector = PolyADetector("bam", "polyA.tsv", min_a_length=12, max_non_a=3)
         detector.analyze()
     """
     def __init__(self, bam_path, output_path, min_a_length=6, max_non_a=3):
