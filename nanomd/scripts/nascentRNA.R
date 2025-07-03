@@ -12,8 +12,8 @@ option_list <- list(
   make_option(c("-o", "--outputDir"), type = "character", default = FALSE,
               help = "Your outputDir ")
 )
-opt_parser = OptionParser(option_list = option_list);
-opt = parse_args(opt_parser);
+opt_parser  <-  OptionParser(option_list = option_list);
+opt  <-  parse_args(opt_parser);
 
 # 1.library package
 library(modelr)
