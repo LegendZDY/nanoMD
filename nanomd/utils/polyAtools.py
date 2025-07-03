@@ -144,6 +144,19 @@ class PolyADetector:
         self.min_a_length = min_a_length
         self.max_non_a = max_non_a
     
+    @staticmethod
+    def reverse_complement(seq):
+        """
+        获取序列的反向互补序列
+        
+        :param seq: 输入序列（DNA）
+        :return: 反向互补序列
+        """
+        complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'U': 'A',
+                    'a': 't', 't': 'a', 'g': 'c', 'c': 'g', 'u': 'a',
+                    'N': 'N', 'n': 'n'}
+        return ''.join(complement.get(base, base) for base in reversed(seq))
+    
     def find_longest_polyA(self, seq):
         """
         Use sliding window algorithm to find the longest consecutive A sequence, allowing a few non-A bases.
@@ -220,9 +233,11 @@ class PolyADetector:
         if flag == 0:
             # 正向比对：取序列末尾的软裁剪区域
             target_seq = seq[-op_len:] if op_len <= len(seq) else seq
-        else:  # flag == 16
+        elif flag == 16:  # flag == 16
             # 反向比对：取序列开头的软裁剪区域
-            target_seq = seq[:op_len] if op_len <= len(seq) else seq
+            target_seq = self.reverse_complement(seq[:op_len]) if op_len <= len(seq) else seq
+        else:
+            return None  # 跳过其他比对方向
         
         # 在目标序列中查找最长连续A（允许少量非A）
         polyA_seq, total_length, a_count, a_ratio = self.find_longest_polyA(target_seq)
