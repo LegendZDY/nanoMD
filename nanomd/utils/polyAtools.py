@@ -138,7 +138,7 @@ class PolyADetector:
         detector = PolyADetector("bam", "polyA.tsv", min_a_length=12, max_non_a=3)
         detector.analyze()
     """
-    def __init__(self, bam_path, output_path, min_a_length=6, max_non_a=3):
+    def __init__(self, bam_path, output_path, min_a_length=12, max_non_a=3):
         self.bam_path = bam_path
         self.output_path = output_path
         self.min_a_length = min_a_length
@@ -147,10 +147,7 @@ class PolyADetector:
     @staticmethod
     def reverse_complement(seq):
         """
-        获取序列的反向互补序列
-        
-        :param seq: 输入序列（DNA）
-        :return: 反向互补序列
+        Get the reverse complement of a sequence.
         """
         complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'U': 'A',
                     'a': 't', 't': 'a', 'g': 'c', 'c': 'g', 'u': 'a',
@@ -173,77 +170,63 @@ class PolyADetector:
         best_end = -1
         
         for right in range(n):
-            # 更新非A碱基计数
             if seq[right].upper() != 'A':
                 non_a_count += 1
             
-            # 移动左指针直到非A碱基数量在允许范围内
             while non_a_count > self.max_non_a:
                 if seq[left].upper() != 'A':
                     non_a_count -= 1
                 left += 1
             
-            # 计算当前窗口长度和A碱基数量
             current_length = right - left + 1
             current_a_count = current_length - non_a_count
-            
-            # 检查当前窗口是否更长
+
             if current_length > max_length:
                 max_length = current_length
                 a_count_in_max = current_a_count
                 best_start = left
                 best_end = right
         
-        # 计算A的比例
         a_ratio = a_count_in_max / max_length if max_length > 0 else 0.0
         
-        # 提取polyA序列
         polyA_seq = seq[best_start:best_end+1] if max_length > 0 else ""
         
         return polyA_seq, max_length, a_count_in_max, a_ratio
     
     def process_read(self, read):
-        # 跳过未比对的read
         if read.is_unmapped or not read.cigartuples:
             return None
         
         read_name = read.query_name
         seq = read.query_sequence
-        if not seq:  # 跳过空序列
+        if not seq:
             return None
             
         flag = read.flag
         cigar = read.cigartuples
         
-        # 确定需要检查的CIGAR操作位置
-        if flag == 0:    # 正向比对
-            target_op = cigar[-1]  # 最后一个操作
-        elif flag == 16: # 反向比对
-            target_op = cigar[0]   # 第一个操作
+        if flag == 0:
+            target_op = cigar[-1]
+        elif flag == 16:
+            target_op = cigar[0]
         else:
-            return None  # 跳过其他比对方向
+            return None
         
         op_type, op_len = target_op
         
-        # 只处理软裁剪操作（S=4）
         if op_type != 4:
             return None
         
-        # 提取待检测序列
         if flag == 0:
-            # 正向比对：取序列末尾的软裁剪区域
             target_seq = seq[-op_len:] if op_len <= len(seq) else seq
-        elif flag == 16:  # flag == 16
-            # 反向比对：取序列开头的软裁剪区域
+        elif flag == 16:
             target_seq = self.reverse_complement(seq[:op_len]) if op_len <= len(seq) else seq
         else:
-            return None  # 跳过其他比对方向
+            return None
         
-        # 在目标序列中查找最长连续A（允许少量非A）
         polyA_seq, total_length, a_count, a_ratio = self.find_longest_polyA(target_seq)
         
-        # 判断是否存在polyA
-        has_polyA = a_count >= self.min_a_length
+        has_polyA = a_count >= self.min_a_length and a_ratio >= 0.75
         
         return {
             "read_name": read_name,
@@ -263,13 +246,14 @@ class PolyADetector:
                 for read in bam:
                     result = self.process_read(read)
                     if result:
-                        fout.write("\t".join([
-                            result["read_name"],
-                            result["ref_name"],
-                            result["strand"],
-                            result["polyA_seq"],
-                            str(result["polyA_region_length"]),
-                            str(result["a_count"]),
-                            f"{result['a_ratio']:.3f}",
-                            result["has_polyA"]
-                        ]) + "\n")
+                        if result["has_polyA"] == "Yes":
+                            fout.write("\t".join([
+                                result["read_name"],
+                                result["ref_name"],
+                                result["strand"],
+                                result["polyA_seq"],
+                                str(result["polyA_region_length"]),
+                                str(result["a_count"]),
+                                f"{result['a_ratio']:.3f}",
+                                result["has_polyA"]
+                            ]) + "\n")
