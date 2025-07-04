@@ -10,8 +10,9 @@ from pathlib import Path
 from typing import Dict, List
 from more_itertools import chunked
 
-import pysam
+import pysam, os, glob
 import pod5 as p5
+import pandas as pd
 from pod5.tools.utils import DEFAULT_THREADS, collect_inputs, limit_threads
 from pod5.tools.pod5_convert_to_fast5 import *
 from basebio import run_command
@@ -257,3 +258,55 @@ class PolyADetector:
                                 f"{result['a_ratio']:.3f}",
                                 result["has_polyA"]
                             ]) + "\n")
+
+def polya_matrix_generate(input_files, control_filess_names, output_file):
+    """
+    Generate polyA matrix.
+    """
+    if isinstance(input_files, str):
+        sorted_files = sorted(glob.glob(input_files))
+        if not sorted_files:
+            raise ValueError(f"No matching file found for {input_files}")
+        input_path = os.path.dirname(sorted_files[0])
+        control_files = [os.path.join(input_path, control_name) for control_name in control_filess_names.split(',')]
+        for control_file in control_files:
+            if control_file in sorted_files:
+                sorted_files.remove(control_file)   
+            else:
+                raise ValueError(f"Control file {control_file} not found in {input_files}")
+        input_files = control_files + sorted_files
+    elif not input_files:
+        raise ValueError("input_files should not be empty")
+    
+    # Initialize a dictionary to store all counts
+    all_counts = {}
+    sample_names = []
+    
+    # Process each sample file
+    for sample_file in input_files:
+        sample_name = os.path.basename(sample_file).split('.')[0]
+        sample_names.append(sample_name)
+        
+        # Read the TSV file
+        df = pd.read_csv(sample_file, sep='\t')
+        
+        # Count occurrences of each refName
+        ref_counts = df['refName'].value_counts().to_dict()
+        all_counts[sample_name] = ref_counts
+    
+    # Create a set of all unique refNames
+    all_refnames = set()
+    for counts in all_counts.values():
+        all_refnames.update(counts.keys())
+    
+    # Create the matrix DataFrame
+    matrix = pd.DataFrame(index=list(all_refnames), columns=sample_names)
+    matrix = matrix.fillna(0)  # Fill with zeros initially
+    
+    # Populate the matrix with counts
+    for sample, counts in all_counts.items():
+        for refname, count in counts.items():
+            matrix.at[refname, sample] = count
+    
+    # Save the matrix to output file
+    matrix.to_csv(output_file, sep='\t')

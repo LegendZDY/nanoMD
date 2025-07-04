@@ -40,7 +40,7 @@ def salmon_quantify(input, reference, output):
         ]
     run_command(command)
 
-def matrix_generate(input_dirs, output, count_type):
+def matrix_generate(input_dirs, control_dirs_names, output, count_type):
     """
     Generate count matrix from salmon results.
     Args:
@@ -56,7 +56,17 @@ def matrix_generate(input_dirs, output, count_type):
     transcript_ids = None
 
     if isinstance(input_dirs, str):
-        input_dirs = sorted(glob.glob(input_dirs))
+        sorted_dirs = sorted(glob.glob(input_dirs))
+        if not sorted_dirs:
+            raise ValueError(f"No matching directory found for {input_dirs}")
+        input_path = os.path.dirname(sorted_dirs[0])
+        control_dirs = [os.path.join(input_path, control_name) for control_name in control_dirs_names.split(',')]
+        for control_dir in control_dirs:
+            if control_dir in sorted_dirs:
+                sorted_dirs.remove(control_dir)
+            else:
+                raise ValueError(f"Control directory {control_dir} not found in {input_dirs}")
+        input_dirs = control_dirs + sorted_dirs
     elif not input_dirs:
         raise ValueError("input_dirs should not be empty")
     
