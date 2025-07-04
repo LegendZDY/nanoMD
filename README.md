@@ -12,6 +12,8 @@ nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed 
     - [Usage](#usage)
     - [nanomd isoform](#nanomd-isoform)
     - [Usage](#usage)
+    - [nanomd matrix](#nanomd-matrix)
+    - [Usage](#usage)
     - [nanomd detectMod](#nanomd-detectmod)
     - [Usage](#usage)
     - [nanomd nascentRNA](#nanomd-nascentrna)
@@ -37,7 +39,7 @@ It is recommended to use the docker or conda environment to run the pipeline.
 
 # Requirements
 
-1. Python 3.6+
+1. Python 3.8+
 2. Python modules:
     - pandas
     - numpy
@@ -55,6 +57,7 @@ It is recommended to use the docker or conda environment to run the pipeline.
 nanomd.py is the main module of nanoMD, which includes the following sub-modules:
 - gene
 - isoform
+- matrix
 - detectMod
 - nascentRNA
 - polyA
@@ -70,6 +73,14 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 ## Usage
 
 `nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcripts.fa -o ./{}_transcripts.sam`
+
+## nanomd matrix
+
+## Usage
+
+`nanomd matrix -i "*_polyA.tsv" -c "WT1_polyA.tsv,WT2_polyA.tsv" -t polyA`
+
+`nanomd matrix -i "*_quant" -c "NC1_quant,NC2_quant,NC3_quant,NC4_quant,NC5_quant" -t salmon`
 
 ## nanomd detectMod
 
@@ -114,12 +125,12 @@ docker run -v /path/to/data:/data -it nanomd/nanomd:latest /bin/bash
 If the user has conda installed, the following command can be used to create a conda environment for nanoMD:
 
 1. Install conda
-2. Create a new conda environment: `conda create -n nanomd python=3.6`
+2. Create a new conda environment: `conda create -n nanomd python=3.12`
 3. Activate the environment: `conda activate nanomd`
-4. Install the required packages: `conda install -c bioconda minimap2 samtools bedtools flair tombo mines`
+4. Install the required packages: `conda install -c bioconda minimap2 samtools bedtools`
 5. Install the required python packages: `pip install pandas numpy scipy sklearn matplotlib seaborn pysam`
-6. Clone the nanoMD repository: `git clone https://github.com/epibiotek/nanomd.git`
-7. Run the pipeline: `python nanomd/nanomd.py gene -i sample -f genome.cdna.fa -e 0.005 -o gene`
+6. Clone the nanoMD repository: `git clone https://github.com/LegendZDY/nanoMD.git`
+7. Run the pipeline: `nanomd gene -i ../input/{}/pass.fq.gz -r ../reference/fasta/genome.fa -o ./{}_gene.sam --parms '--secondary=no --cs -a --sam-hit-only'`
 
 # Cite nanoMD
 
