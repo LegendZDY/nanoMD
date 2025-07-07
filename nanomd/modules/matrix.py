@@ -54,7 +54,7 @@ def matrix(
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):
                 if docker:
-                    run_command(f"docker run -v {WKD}/{output_plot}:/output -v {plot_script}:/isoform.R -w /output legendzdy/rbase:1.0.0 Rscript /isoform.R -i {output_count} -o /output -p {prefix} -s {species} -t {type} -n {split_num}".split())
+                    run_command(f"docker run -v {WKD}/{output_plot}:/output -v {plot_script}:/isoform.R -w /output legendzdy/rbase:1.0.0 Rscript /isoform.R -i /output/{output_count} -o /output -p {prefix} -s {species} -t {type} -n {split_num}".split())
                 else:
                     run_command(f"Rscript {plot_script} -i {output_count} -o {WKD}/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}")
 
