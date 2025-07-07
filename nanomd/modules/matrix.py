@@ -54,9 +54,9 @@ def matrix(
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):
                 if docker:
-                    run_command(f"docker run -v {WKD}:/output -v {plot_script}:/isoform.R -w /output legendzdy/rbase:1.0.0 Rscript /isoform.R -i /output/{output_count} -o /output -p {prefix} -s {species} -t {type} -n {split_num}".split())
+                    run_command(f"docker run -v {WKD}:/output -v {plot_script}:/isoform.R -w /output legendzdy/rbase:1.0.0 Rscript /isoform.R -i /output/{output_count} -o /output/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}".split())
                 else:
-                    run_command(f"Rscript {plot_script} -i {WKD} -o {WKD}/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}")
+                    run_command(f"Rscript {plot_script} -i {WKD}/{output_count} -o {WKD}/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}")
 
             end=time.time()
             time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
