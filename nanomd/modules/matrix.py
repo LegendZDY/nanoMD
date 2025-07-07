@@ -28,7 +28,7 @@ def matrix(
         transient=True,
     ) as progress:
         try:
-            progress.add_task(description="Generate count matrix...", total=None)
+            progress.add_task(description="Generate count matrix and plot matrix...", total=None)
             start=time.time()
 
             plot_script = Path(__file__).parent.parent / "scripts"
@@ -50,8 +50,7 @@ def matrix(
                     polya_matrix_generate(input_files=inputs, control_filess_names=control_names, output_file=output_count)
             else:
                 print(f"Error: Unknown count type {type}")
-            progress.add_task(description=f"Generate count matrix Done", total=None)
-            progress.add_task(description=f"Plotting matrix ...", total=None)
+
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):
                 if docker:
