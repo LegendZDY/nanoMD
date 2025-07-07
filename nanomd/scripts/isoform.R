@@ -19,8 +19,7 @@ option_list <- list(
     make_option(c("-f", "--filter_num"), type = "numeric", default = 1,
               help = "filter num is control the number of filter for the plot"),
     make_option(c("-m", "--model"), type = "character", default = "normal",
-              help = "model is control the model for the plot, you can choose in [normal|filter]"),
-
+              help = "model is control the model for the plot, you can choose in [normal|filter]")
 )
 opt_parser <- OptionParser(option_list = option_list)
 opt <- parse_args(opt_parser)
