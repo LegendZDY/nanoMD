@@ -1,7 +1,4 @@
 # nanoMD
-
-nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed to synchronously analyze the changes in m6A sites, genes, and isoforms, and new mRNA.
-
 <!-- TOC -->
 
 - [nanoMD](#nanomd)
@@ -10,15 +7,15 @@ nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed 
 - [nanoMD modules](#nanomd-modules)
     - [nanomd gene](#nanomd-gene)
     - [Usage](#usage)
-    - [nanomd isoform](#nanomd-isoform)
+    - [nanomd count](#nanomd-count)
+    - [Usage](#usage)
+    - [nanomd polyA](#nanomd-polya)
     - [Usage](#usage)
     - [nanomd matrix](#nanomd-matrix)
     - [Usage](#usage)
     - [nanomd detectMod](#nanomd-detectmod)
     - [Usage](#usage)
     - [nanomd nascentRNA](#nanomd-nascentrna)
-    - [Usage](#usage)
-    - [nanomd polyA](#nanomd-polya)
     - [Usage](#usage)
 - [Scripts](#scripts)
     - [detect5EU.py](#detect5eupy)
@@ -28,7 +25,6 @@ nanoMD(Nanopore direct RNA sequencing Multi-dimensional analysis) was developed 
 - [Cite nanoMD](#cite-nanomd)
 
 <!-- /TOC -->
-
 
 
 # Overview
@@ -56,11 +52,11 @@ It is recommended to use the docker or conda environment to run the pipeline.
 
 nanomd.py is the main module of nanoMD, which includes the following sub-modules:
 - gene
-- isoform
+- count
+- polyA
 - matrix
 - detectMod
 - nascentRNA
-- polyA
 
 ## nanomd gene
 
@@ -68,11 +64,17 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 `nanomd gene -i ../input/{}/pass.fq.gz -r ../reference/fasta/genome.fa -o ./{}_gene.sam --parms '--secondary=no --cs -a --sam-hit-only'`
 
-## nanomd isoform
+## nanomd count
 
 ## Usage
 
-`nanomd isoform -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcripts.fa -o ./{}_transcripts.sam`
+`nanomd count -i ../input/{}/pass.fq.gz -r ../reference/fasta/transcripts.fa -o ./{}_transcripts.sam`
+
+## nanomd polyA
+
+## Usage
+
+`nanomd polyA -i ./pass.fq.gz --transcriptome=$ref -o . -p Ctrl-1`
 
 ## nanomd matrix
 
@@ -93,12 +95,6 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 ## Usage
 
 `nanomd nascentRNA -i ../input/{}/pass.fq.gz -s ../01_map_gene/{}_gene.sam -r ../reference/fasta/transcripts.fa -m ~/soft/newRNA.pkl -p {}`
-
-## nanomd polyA
-
-## Usage
-
-`nanomd polyA -i ./pass.fq.gz --transcriptome=$ref -o . -p Ctrl-1`
 
 # Scripts
 
