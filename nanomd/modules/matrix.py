@@ -50,7 +50,8 @@ def matrix(
                     polya_matrix_generate(input_files=inputs, control_filess_names=control_names, output_file=output_count)
             else:
                 print(f"Error: Unknown count type {type}")
-            
+            progress.add_task(description=f"Generate count matrix Done", total=None)
+            progress.add_task(description=f"Plotting matrix ...", total=None)
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):
                 if docker:
@@ -60,9 +61,9 @@ def matrix(
 
             end=time.time()
             time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
-            print(f"Generate count matrix Done, time cost: {time_cost}")
-            progress.add_task(description=f"Generate count matrix Done, time cost: {time_cost}", total=None)
+            print(f"Generate count matrix and plot matrix Done, time cost: {time_cost}")
+            progress.add_task(description=f"Generate count matrix and plot matrix Done, time cost: {time_cost}", total=None)
         except Exception as e:
             print(f"Error: {e}")
-            progress.add_task(description="Generate count matrix Failed", total=None)
+            progress.add_task(description="Generate count matrix and plot matrix Failed", total=None)
             exit(1)
