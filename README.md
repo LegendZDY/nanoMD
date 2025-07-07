@@ -80,9 +80,9 @@ nanomd.py is the main module of nanoMD, which includes the following sub-modules
 
 ## Usage
 
-`nanomd matrix -i "*_polyA.tsv" -c "WT1_polyA.tsv,WT2_polyA.tsv" -t polyA`
+`nanomd matrix -i "*_polyA.tsv" -c "WT1_polyA.tsv,WT2_polyA.tsv" -p polyA -s human -t polyA --docker`
 
-`nanomd matrix -i "*_quant" -c "NC1_quant,NC2_quant,NC3_quant,NC4_quant,NC5_quant" -t salmon`
+`nanomd matrix -i "*_quant" -c "NC1_quant,NC2_quant,NC3_quant,NC4_quant,NC5_quant" -p salmon -s human --docker`
 
 ## nanomd detectMod
 
