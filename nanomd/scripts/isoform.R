@@ -117,7 +117,11 @@ auto_plot <- function(input_file, output_path, prefix, species, type = "salmon",
         gene_path  <- paste0(output_path, "/", file_name, "_gene_standard.tsv")
         gene_output <- paste0(output_path, "/", "gene")
         ifelse(dir.exists(gene_output), "Dir exist alreadly!", dir.create(gene_output, recursive = TRUE))
-        legendBaseModel::auto_deseq2(gene_path, gene_output, prefix, species, split_num, filter_num, model)
+        gene_matrix <- readr::read_delim(gene_path, col_names = T, delim = "\t", comment = "#", show_col_types = FALSE) %>% 
+            dplyr::distinct(SYMBOL, .keep_all = TRUE) %>%
+            tibble::remove_rownames() %>%
+            tibble::column_to_rownames(var="SYMBOL")
+        legendBaseModel::deseq2_Rd(gene_matrix, gene_output, prefix, split_num, filter_num, model)
         deseq2_file <- paste0(gene_output, "/", prefix, "_deseq2.tsv")
         enrichment_output <- paste0(gene_output, "/", "enrichment")
         ifelse(dir.exists(enrichment_output), "Dir exist alreadly!", dir.create(enrichment_output, recursive = TRUE))
@@ -130,4 +134,4 @@ auto_plot <- function(input_file, output_path, prefix, species, type = "salmon",
 
 
 # main run
-auto_plot(input, output, prefix, type)
+auto_plot(input, output, prefix, species, type, split_num, filter_num, model)
