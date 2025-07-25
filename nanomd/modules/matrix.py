@@ -46,10 +46,12 @@ def matrix(
                                     count_type="TPM")
             elif type == "polyA":
                 output_count = "matrix_polyA.tsv"
-                if not check_path_exists(output_count):
-                    polya_matrix_generate(input_files=inputs, control_filess_names=control_names, output_file=output_count)
+                output_lengths = "polyA_lengths.tsv"
+                if not check_path_exists(output_count) and not check_path_exists(output_lengths):
+                    polya_matrix_generate(input_files=inputs, control_filess_names=control_names, output_matrix=output_count, output_lengths=output_lengths)
             else:
                 print(f"Error: Unknown count type {type}")
+                exit(1)
 
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):

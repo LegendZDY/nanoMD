@@ -153,7 +153,7 @@ class PolyADetector:
         complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', 'U': 'A',
                     'a': 't', 't': 'a', 'g': 'c', 'c': 'g', 'u': 'a',
                     'N': 'N', 'n': 'n'}
-        return ''.join(complement.get(base, base) for base in reversed(seq))
+        return ''.join(complement.get(base, base) for base in reversed(seq)) # type: ignore
     
     def find_longest_polyA(self, seq):
         """
@@ -259,9 +259,49 @@ class PolyADetector:
                                 result["has_polyA"]
                             ]) + "\n")
 
-def polya_matrix_generate(input_files, control_filess_names, output_file):
+def drop_outliers(df, dep_col, handle_nan='keep'):
     """
-    Generate polyA matrix.
+    Use IQR method to drop outliers from DataFrame
+
+    Args:
+        df: pandas DataFrame
+        dep_col: str, the column name for detecting outliers
+        handle_nan: str, the method for handling NaN values ('keep','remove', 'fill')
+    
+    Returns:
+        The filtered DataFrame
+    """
+
+    # Validate column exists
+    if dep_col not in df.columns:
+        raise ValueError(f"Column '{dep_col}' not found in DataFrame")
+
+    # Handle NaN values
+    if handle_nan == 'remove':
+        df = df.dropna(subset=[dep_col])
+    elif handle_nan == 'fill':
+        median_val = df[dep_col].median()
+        df[dep_col] = df[dep_col].fillna(median_val)
+
+    # Default 'keep' does not do anything
+    # Calculate quartiles and IQR
+    a = df[dep_col]
+    q1 = a.quantile(0.25)
+    q3 = a.quantile(0.75)
+    iqr = q3 - q1
+
+    # Calculate normal value range
+    bottom = q1 - 1.5 * iqr
+    top = q3 + 1.5 * iqr
+
+    # Create boolean mask
+    mask = (a >= bottom) & (a <= top)
+    
+    return df[mask]
+
+def polya_matrix_generate(input_files, control_filess_names, output_matrix, output_lengths):
+    """
+    Generate polyA matrix and polyA lengths file.
     """
     if isinstance(input_files, str):
         sorted_files = sorted(glob.glob(input_files))
@@ -281,11 +321,14 @@ def polya_matrix_generate(input_files, control_filess_names, output_file):
     # Initialize a dictionary to store all counts
     all_counts = {}
     sample_names = []
+    # 创建一个空的DataFrame存储所有结果
+    all_polyA_lengths = pd.DataFrame()
     
     # Process each sample file
     for sample_file in input_files:
-        sample_name = os.path.basename(sample_file).split('.')[0]
+        sample_name = os.path.basename(sample_file).split('.')[0].replace('_polyA', '') 
         sample_names.append(sample_name)
+        condition = sample_name
         
         # Read the TSV file
         df = pd.read_csv(sample_file, sep='\t')
@@ -293,6 +336,11 @@ def polya_matrix_generate(input_files, control_filess_names, output_file):
         # Count occurrences of each refName
         ref_counts = df['refName'].value_counts().to_dict()
         all_counts[sample_name] = ref_counts
+        # ployA lengths
+        df_temp = df[['polyALength']].copy()
+        df_temp['condition'] = condition
+        df_temp = df_temp.rename(columns={'polyALength': 'measurement'})
+        all_polyA_lengths = pd.concat([all_polyA_lengths, df_temp], ignore_index=True)
     
     # Create a set of all unique refNames
     all_refnames = set()
@@ -302,11 +350,14 @@ def polya_matrix_generate(input_files, control_filess_names, output_file):
     # Create the matrix DataFrame
     matrix = pd.DataFrame(index=list(all_refnames), columns=sample_names)
     matrix = matrix.fillna(0)  # Fill with zeros initially
-    
     # Populate the matrix with counts
     for sample, counts in all_counts.items():
         for refname, count in counts.items():
             matrix.at[refname, sample] = count
-    
     # Save the matrix to output file
-    matrix.to_csv(output_file, sep='\t')
+    matrix.to_csv(output_matrix, sep='\t')
+
+    # ployA lengths
+    all_polyA_lengths = all_polyA_lengths[['condition', 'measurement']]
+    all_polyA_lengths = drop_outliers(all_polyA_lengths, 'measurement')
+    all_polyA_lengths.to_csv(output_lengths, sep='\t', index=False)
