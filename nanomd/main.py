@@ -17,7 +17,7 @@ def callback():
 
 app.command(name="gene")(gene)
 app.command(name="count")(isoform)
-app.command(name="polyA")(ployA)
+app.command(name="ployA")(ployA)
 app.command(name="matrix")(matrix)
 app.command(name="isoformAS")(isoformAS)
 app.command(name="detectMod")(detectMod)
