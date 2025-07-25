@@ -14,7 +14,7 @@ import pysam, os, glob
 import pod5 as p5
 import pandas as pd
 from pod5.tools.utils import DEFAULT_THREADS, collect_inputs, limit_threads
-from pod5.tools.pod5_convert_to_fast5 import *
+from pod5.tools.pod5_convert_to_fast5 import * # type: ignore
 from basebio import run_command
 
 def convert_to_fast5_with_summary_file(
