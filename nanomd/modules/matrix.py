@@ -47,7 +47,7 @@ def matrix(
             elif type == "ployA":
                 output_count = "matrix_ployA.tsv"
                 output_lengths = "ployA_lengths.tsv"
-                if not check_path_exists(output_count) and not check_path_exists(output_lengths):
+                if not check_path_exists(output_count) or not check_path_exists(output_lengths):
                     ployA_matrix_generate(input_files=inputs, control_filess_names=control_names, output_matrix=output_count, output_lengths=output_lengths)
             else:
                 print(f"Error: Unknown count type {type}")
