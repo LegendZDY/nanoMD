@@ -1212,4 +1212,4 @@ reference = "pypi2"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "3f4dcfd3b9605c622468b8e8e63df537d2b9ba4ad668b4ca26159f3bd5998c56"
+content-hash = "54c92569e20ef69230aee11aa43fa0332f52e9dde3cc1164b29482b8dc754b05"
