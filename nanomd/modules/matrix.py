@@ -28,9 +28,9 @@ def matrix(
         transient=True,
     ) as progress:
         try:
-            progress.add_task(description="Generate count matrix and plot matrix...", total=None)
             start=time.time()
 
+            task1 = progress.add_task(description="Generate count matrix and plot matrix...", total=100)
             plot_script = Path(__file__).parent.parent / "scripts"
             split_num = len(control_names.split(","))
             WKD = os.getcwd()
@@ -52,19 +52,22 @@ def matrix(
             else:
                 print(f"Error: Unknown count type {type}")
                 exit(1)
+            progress.update(task1, advance=100)
 
+            task2 = progress.add_task(description="Generate plot...", total=100)
             output_plot = f"matrix_plots"
             if not check_path_exists(output_plot):
                 if docker:
                     run_command(f"docker run -v {WKD}:/output -v {plot_script}:/scripts -w /output legendzdy/rbase:1.0.0 Rscript /scripts/isoform.R -i /output/{output_count} -o /output/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}".split())
                 else:
                     run_command(f"Rscript {plot_script}/isoform.R -i {WKD}/{output_count} -o {WKD}/{output_plot} -p {prefix} -s {species} -t {type} -n {split_num}")
+            progress.update(task2, advance=100)
 
             end=time.time()
             time_cost=f"{(end - start) // 3600}h{((end - start) % 3600) // 60}m{(end - start) % 60:.2f}s"
             print(f"Generate count matrix and plot matrix Done, time cost: {time_cost}")
-            progress.add_task(description=f"Generate count matrix and plot matrix Done, time cost: {time_cost}", total=None)
+            progress.console.print(f"Generate count matrix and plot matrix Done, time cost: {time_cost}")
         except Exception as e:
             print(f"Error: {e}")
-            progress.add_task(description="Generate count matrix and plot matrix Failed", total=None)
+            progress.console.print("Generate count matrix and plot matrix Failed")
             exit(1)
